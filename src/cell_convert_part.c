@@ -1178,10 +1178,10 @@ struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
   sp_new->x_diff[2] = sp->x_diff[2];
 
   /* Create a new gpart */
-  struct gpart *sp->gpart = cell_add_gpart(e, c);
+  struct gpart *sp_new->gpart = cell_add_gpart(e, c);
 
   /* Did we run out of free gpart slots? */
-  if (gpsp->gpart == NULL) {
+  if (sp_new->gpart == NULL) {
     message("We run out of free gpart slots!");
     /* Remove the particle created */
     cell_remove_spart(e, c, sp_new);
