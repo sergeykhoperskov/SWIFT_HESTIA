@@ -1174,6 +1174,7 @@ struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
 
   /* Did we run out of free gpart slots? */
   if (gp == NULL) {
+    message("We run out of free gpart slots!");
     /* Remove the particle created */
     cell_remove_spart(e, c, sp);
     return NULL;
