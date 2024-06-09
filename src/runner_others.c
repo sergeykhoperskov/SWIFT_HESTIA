@@ -440,6 +440,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               c->stars.h_max_active = max(c->stars.h_max_active, sp->h);
 
               message("sp a id = %lld",sp->id);
+              message("sp a2 id = %lld",sp->gpart->id);
               struct spart *sp_new = NULL;
               sp_new = cell_spawn_new_spart_from_spart(e, c, sp);
               message("sp b id = %lld",sp->id);
