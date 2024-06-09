@@ -439,6 +439,14 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               c->stars.h_max = max(c->stars.h_max, sp->h);
               c->stars.h_max_active = max(c->stars.h_max_active, sp->h);
 
+              message("sp id = ",sp->id);
+              struct spart *sp_new = NULL;
+              sp_new = cell_spawn_new_spart_from_spart(e, c, sp);
+              message("sp id = ",sp->id);
+              message("sp id = ",sp_new->id);
+              error("just stop here");
+
+
               /* Update the displacement information */
               if (star_formation_need_update_dx_max) {
                 const float dx2_part = xp->x_diff[0] * xp->x_diff[0] +
