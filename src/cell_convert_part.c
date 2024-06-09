@@ -1193,5 +1193,7 @@ struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
   /* Synchronize clocks */
   gp->time_bin = sp->time_bin;
 
-                                             
+  /* Here comes the Sun! */
+  return sp;
+
   }
