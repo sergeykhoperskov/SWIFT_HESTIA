@@ -1153,7 +1153,7 @@ struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
                                              const struct spart *sp) {
 
   message("We try to copy spart here");
-  
+
   /* Quick cross-check */
   if (c->nodeID != e->nodeID)
     error("Can't spawn a particle in a foreign cell.");
@@ -1169,6 +1169,9 @@ struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
     message("We run out of free spart slots");
      return NULL;
   }
+  else
+  message("New spart created");
+
   /* Copy over the distance since rebuild */
   sp_new->x_diff[0] = sp->x_diff[0];
   sp_new->x_diff[1] = sp->x_diff[1];
@@ -1184,17 +1187,22 @@ struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
     cell_remove_spart(e, c, sp_new);
     return NULL;
   }
+  else
+  message("New gpart created");
 
   /* Copy the gpart */
   *gp = *sp->gpart;
+  message("Copy the gpart done");
 
   /* Assign the ID. */
   sp_new->id = space_get_new_unique_id(e->s);
   gp->type = swift_type_stars;
+  message("IDs done");
 
   /* Re-link things */
   sp_new->gpart = gp;
   gp->id_or_neg_offset = -(sp_new - e->s->sparts);
+  message("Re-link done");
 
   /* Synchronize clocks */
   gp->time_bin = sp_new->time_bin; // or sp?
