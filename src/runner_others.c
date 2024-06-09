@@ -439,11 +439,11 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               c->stars.h_max = max(c->stars.h_max, sp->h);
               c->stars.h_max_active = max(c->stars.h_max_active, sp->h);
 
-              message("sp id = ",sp->id);
+              message("sp id = %e",sp->id);
               struct spart *sp_new = NULL;
               sp_new = cell_spawn_new_spart_from_spart(e, c, sp);
-              message("sp id = ",sp->id);
-              message("sp id = ",sp_new->id);
+              message("sp id = %e",sp->id);
+              message("sp id = %e",sp_new->id);
               error("just stop here");
 
 
