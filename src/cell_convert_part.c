@@ -1178,10 +1178,10 @@ struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
   sp_new->x_diff[2] = sp->x_diff[2];
 
   /* Create a new gpart */
-  struct gpart *gp = cell_add_gpart(e, c);
+  struct gpart *sp->gpart = cell_add_gpart(e, c);
 
   /* Did we run out of free gpart slots? */
-  if (gp == NULL) {
+  if (gpsp->gpart == NULL) {
     message("We run out of free gpart slots!");
     /* Remove the particle created */
     cell_remove_spart(e, c, sp_new);
@@ -1191,23 +1191,26 @@ struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
   message("New gpart created");
 
   /* Copy the gpart */
-  gp = sp->gpart;
+  sp_new->gpart = sp->gpart;
+  //gp = sp->gpart;
   // *gp = *sp->gpart;
   message("Copy the gpart done");
 
   /* Assign the ID. */
   sp_new->id = space_get_new_unique_id(e->s);
   message("sp id done");
-  gp->type = swift_type_stars;
-  message("IDs done");
+  // sp_new->gpart->type = swift_type_stars;
+//  gp->type = swift_type_stars;
+  message("IDs done ");
+  message("IDs done: %d",sp_new->gpart->type);
 
   /* Re-link things */
-  sp_new->gpart = gp;
-  gp->id_or_neg_offset = -(sp_new - e->s->sparts);
+  // sp_new->gpart = gp;
+  sp_new->gpart->id_or_neg_offset = -(sp_new - e->s->sparts);
   message("Re-link done");
 
   /* Synchronize clocks */
-  gp->time_bin = sp_new->time_bin; // or sp?
+  sp_new->gpart->time_bin = sp_new->time_bin; // or sp?
 
   /* Here comes the Sun! */
   message("Here comes the Sun!");
