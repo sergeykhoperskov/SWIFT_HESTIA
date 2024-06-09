@@ -1191,7 +1191,8 @@ struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
   message("New gpart created");
 
   /* Copy the gpart */
-  *gp = *sp->gpart;
+  gp = sp->gpart;
+  // *gp = *sp->gpart;
   message("Copy the gpart done");
 
   /* Assign the ID. */
