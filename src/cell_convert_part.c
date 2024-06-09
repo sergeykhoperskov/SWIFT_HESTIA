@@ -1213,6 +1213,9 @@ struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
 
   /* Here comes the Sun! */
   message("Here comes the Sun!");
+
+  /* TODO particles shift */
+  /* TODO copy some sp fields */
   
   return sp_new;
 
