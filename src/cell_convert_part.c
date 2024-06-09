@@ -1150,24 +1150,26 @@ struct spart *cell_spawn_new_spart_from_sink(struct engine *e, struct cell *c,
  * velocity and time-bin as the original #part.
  */
 struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
-                                             const struct spart *sp0) {
+                                             const struct spart *sp) {
   /* Quick cross-check */
   if (c->nodeID != e->nodeID)
     error("Can't spawn a particle in a foreign cell.");
 
-  if (sp0->gpart == NULL)
+  if (sp->gpart == NULL)
     error("Trying to create a new spart from a part without gpart friend!");
 
   /* Create a fresh (empty) spart */
-  struct spart *sp = cell_add_spart(e, c);
+  struct spart *sp_new = cell_add_spart(e, c);
 
   /* Did we run out of free spart slots? */
-  if (sp == NULL) return NULL;
-
+  if (sp_new == NULL){
+    message("We run out of free spart slots");
+     return NULL;
+  }
   /* Copy over the distance since rebuild */
-  sp->x_diff[0] = sp0->x_diff[0];
-  sp->x_diff[1] = sp0->x_diff[1];
-  sp->x_diff[2] = sp0->x_diff[2];
+  sp_new->x_diff[0] = sp->x_diff[0];
+  sp_new->x_diff[1] = sp->x_diff[1];
+  sp_new->x_diff[2] = sp->x_diff[2];
 
   /* Create a new gpart */
   struct gpart *gp = cell_add_gpart(e, c);
@@ -1176,26 +1178,26 @@ struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
   if (gp == NULL) {
     message("We run out of free gpart slots!");
     /* Remove the particle created */
-    cell_remove_spart(e, c, sp);
+    cell_remove_spart(e, c, sp_new);
     return NULL;
   }
 
   /* Copy the gpart */
-  *gp = *sp0->gpart;
+  *gp = *sp->gpart;
 
   /* Assign the ID. */
-  sp->id = space_get_new_unique_id(e->s);
+  sp_new->id = space_get_new_unique_id(e->s);
   gp->type = swift_type_stars;
 
   /* Re-link things */
-  sp->gpart = gp;
-  gp->id_or_neg_offset = -(sp - e->s->sparts);
+  sp_new->gpart = gp;
+  gp->id_or_neg_offset = -(sp_new - e->s->sparts);
 
   /* Synchronize clocks */
-  gp->time_bin = sp->time_bin;
+  gp->time_bin = sp_new->time_bin; // or sp?
 
   /* Here comes the Sun! */
   message("Here comes the Sun!");
-  return sp;
+  return sp_new;
 
   }
