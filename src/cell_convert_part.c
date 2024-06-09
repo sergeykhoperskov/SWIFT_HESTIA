@@ -1197,6 +1197,7 @@ struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
 
   /* Assign the ID. */
   sp_new->id = space_get_new_unique_id(e->s);
+  message("sp id done");
   gp->type = swift_type_stars;
   message("IDs done");
 
