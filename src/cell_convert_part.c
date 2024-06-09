@@ -1151,6 +1151,9 @@ struct spart *cell_spawn_new_spart_from_sink(struct engine *e, struct cell *c,
  */
 struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
                                              const struct spart *sp) {
+
+  message("We try to copy spart here");
+  
   /* Quick cross-check */
   if (c->nodeID != e->nodeID)
     error("Can't spawn a particle in a foreign cell.");
@@ -1198,6 +1201,7 @@ struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
 
   /* Here comes the Sun! */
   message("Here comes the Sun!");
+  
   return sp_new;
 
   }
