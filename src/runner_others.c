@@ -525,6 +525,8 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
   const int new_stars_count = c->stars.count;
   message("new_stars_count %d",new_stars_count);
 
+struct spart *const sparts = c->stars.parts;
+
 /* Loop over the star particles in this cell. */
     for (int k = 0; k < new_stars_count; k++) {
       /* Get a handle on the part. */
