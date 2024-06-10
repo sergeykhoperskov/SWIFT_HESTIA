@@ -1257,7 +1257,7 @@ void runner_do_split_stars(struct runner *r, struct cell *c, int timer){
 #endif
 
 /* Loop over the star particles in this cell. */
-    for (int k = 0; k < new_stars_count; k++) 
+    for (int k = 0; k < current_stars_count; k++) 
     {
       /* Get a handle on the part. */    
 //      struct spart *restrict spp = &sparts[k];
