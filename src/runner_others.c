@@ -541,7 +541,7 @@ if(current_stars_count != c->stars.count)
     {
       /* Get a handle on the part. */    
 //      struct spart *restrict spp = &sparts[k];
-      struct spart * spp = &sparts[k];
+      const struct spart * spp = &sparts[k];
       if (abs(spp->birth_time-e->time)<1e-8)
       {      
 
