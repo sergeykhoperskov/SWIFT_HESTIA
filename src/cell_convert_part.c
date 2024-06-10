@@ -1149,8 +1149,9 @@ struct spart *cell_spawn_new_spart_from_sink(struct engine *e, struct cell *c,
  * @return A fresh #spart with a different ID, but same position,
  * velocity and time-bin as the original #part.
  */
-struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
-                                             const struct spart *sp) {
+struct spart *cell_spawn_new_spart_from_spart(struct engine *e, 
+                                              struct cell *c,
+                                              const struct spart *sp) {
 
   message("We try to copy spart here");
 
