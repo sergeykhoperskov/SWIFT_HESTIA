@@ -1278,12 +1278,12 @@ message("number of stars %d",current_stars_count);
       const struct spart * sp = &sparts[k];
       if (abs(sp->birth_time-e->time)<1e-8)
       {
-          message("a sp statistics %d",k,sp->id);
+          message("a sp statistics %d %lld",k,sp->id);
 
           struct spart * sp_new = cell_add_spart(e, c);
           sp_new->id = space_get_new_unique_id(e->s);
 
-          message("b sp statistics %d",k,sp->id,sp_new->id);
+          message("b sp statistics %d %lld %lld",k,sp->id,sp_new->id);
 
         number_new_stars--;
       }
