@@ -528,8 +528,14 @@ if(current_stars_count != c->stars.count)
         const struct spart * sp = &sparts[k];
         if (abs(sp->birth_time-e->time)<1e-8)
         {
+          message("a dealing with %d-th: %lld %e",k,sp->id,sp->mass);
+
+          struct spart * sp_new = cell_add_spart(e, c);
+          sp_new->id = space_get_new_unique_id(e->s);
+          message("b dealing with %d-th: %lld %e",k,sp->id,sp->mass);
+          message("c dealing with %d-th: %lld",k,sp_new->id);
           
-            number_new_stars--;
+          number_new_stars--;
         }
 
         if(number_new_stars==0)
