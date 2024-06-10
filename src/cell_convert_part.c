@@ -1193,7 +1193,7 @@ struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
   message("New gpart created");
 
   /* Copy the gpart */
-  gp = sp->gpart;
+  // gp = sp->gpart;
   // *gp = *sp->gpart;
   message("new gp coordinates %e %e %e", gp->x[0], gp->x[1], gp->x[2]);
   message("Copy the gpart done");
