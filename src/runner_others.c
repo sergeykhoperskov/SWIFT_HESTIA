@@ -515,7 +515,6 @@ if(current_stars_count != c->stars.count)
     /* Loop over the star particles in this cell. */
     for (int k = 0; k < current_stars_count; k++) 
     {
-        /* Get a handle on the part. */    
         const struct spart * sp = &sparts[k];
         if (abs(sp->birth_time-e->time)<1e-8)
           number_new_stars++;
@@ -524,6 +523,21 @@ if(current_stars_count != c->stars.count)
     if(number_new_stars>0)
       message("number of stars %d new %d ",current_stars_count,number_new_stars);
       
+    for (int k = 0; k < current_stars_count; k++) 
+    {
+        const struct spart * sp = &sparts[k];
+        if (abs(sp->birth_time-e->time)<1e-8)
+        {
+          
+            number_new_stars--;
+        }
+
+        if(number_new_stars==0)
+        break;
+    }
+
+
+    message("new number of stars %d unsplitted %d ",current_stars_count,number_new_stars);
     error("just stop here");
     }
 /* SAKh */
