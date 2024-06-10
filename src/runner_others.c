@@ -1248,6 +1248,7 @@ void runner_do_split_stars(struct runner *r, struct cell *c, int timer){
   const integertime_t ti_current = e->ti_current;
   const int current_stars_count = c->stars.count;
   int ifstars_formed = 0;
+  int number_new_stars = 0;
   struct spart * sparts = c->stars.parts;
 
 
@@ -1256,18 +1257,32 @@ void runner_do_split_stars(struct runner *r, struct cell *c, int timer){
     error("Running star formation task on a foreign node!");
 #endif
 
+message("number of stars %d",current_stars_count);
+
 /* Loop over the star particles in this cell. */
     for (int k = 0; k < current_stars_count; k++) 
     {
       /* Get a handle on the part. */    
-//      struct spart *restrict spp = &sparts[k];
       const struct spart * sp = &sparts[k];
-
       if (abs(sp->birth_time-e->time)<1e-8)
       {      
+        number_new_stars++;
+      }
+    }
 
-        message("a spart-old count %d",c->stars.count);
-        message("b spart id %d %lld %e",k,sp->id,sp->mass);
+    if(number_new_stars>0)
+    error("number of new stars %d",number_new_stars);
+
+
+
+
+}
+
+
+
+//        message("a spart-old count %d",c->stars.count);
+  //      message("b spart id %d %lld %e",k,sp->id,sp->mass);
+//       error("just stop here now");
 
         // struct spart * sp_new = cell_add_spart(e, c);
         // sp_new->id = space_get_new_unique_id(e->s);
@@ -1283,12 +1298,3 @@ void runner_do_split_stars(struct runner *r, struct cell *c, int timer){
         // message("h spart-new count %d",c->stars.count);
 
 //       error("just stop here now");
-
-      }
-       error("just stop here now");
-    }
-
-
-
-
-}
