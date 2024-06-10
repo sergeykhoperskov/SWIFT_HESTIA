@@ -1180,6 +1180,8 @@ struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
   /* Create a new gpart */
   struct gpart *gp = cell_add_gpart(e, c);
 
+  message("new gp coordinates %e %e %e", gp->x[0], gp->x[1], gp->x[2]);
+
   /* Did we run out of free gpart slots? */
   if (gp == NULL) {
     message("We run out of free gpart slots!");
