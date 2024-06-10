@@ -557,7 +557,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
     }
 /* SAKh */
 
-  }
+  // }
 
   /* If we formed any stars, the star sorts are now invalid. We need to
    * re-compute them. */
