@@ -305,6 +305,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
   const double time_base = e->time_base;
   const integertime_t ti_current = e->ti_current;
   const int current_stars_count = c->stars.count;
+  int ifstars_formed = 0;
 
   TIMER_TIC;
 
@@ -450,6 +451,8 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               // message("sp_old b id = %lld",sp->id);
               // message("sp_new c id = %lld",sp_new->id);
               // error("just stop here");
+              ifstars_formed = 1;
+
               /* SAKh */
 
               /* Update the displacement information */
@@ -511,6 +514,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
     } /* Loop over particles */
   }
 
+  if(ifstars_formed == 1)
   message("new_stars_count %d %d",current_stars_count,c->stars.count);
 
   /* If we formed any stars, the star sorts are now invalid. We need to
@@ -522,10 +526,12 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 
 
 /* SAKh */
-  const int new_stars_count = c->stars.count;
-  message("new_stars_count %d",new_stars_count);
+  if(ifstars_formed == 1)
+  {
+    const int new_stars_count = c->stars.count;
+    message("new_stars_count %d",new_stars_count);
 
-struct spart *const sparts = c->stars.parts;
+    struct spart *const sparts = c->stars.parts;
 
 /* Loop over the star particles in this cell. */
     for (int k = 0; k < new_stars_count; k++) {
@@ -534,7 +540,8 @@ struct spart *const sparts = c->stars.parts;
       message("spart id %lld",spp->id);
     }
 
-  error("just stop here");
+   error("just stop here");
+  }
 
 /* SAKh */
 
