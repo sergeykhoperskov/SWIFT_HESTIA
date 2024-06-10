@@ -407,6 +407,12 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               star_formation_copy_properties(
                   p, xp, spp[ii], e, sf_props, cosmo, with_cosmology, phys_const,
                   hydro_props, us, cooling, 8 ); 
+
+              star_formation_logger_log_new_spart(spp[ii], &c->stars.sfh);
+
+              c->stars.h_max = max(c->stars.h_max, spp[ii]->h);
+              c->stars.h_max_active = max(c->stars.h_max_active, spp[ii]->h);
+
               message("We formed a star id=%lld, old stars count=%d, current %d, mass %e", 
               spp[ii]->id, current_stars_count, c->stars.count, spp[ii]->mass);       
             }
@@ -432,16 +438,8 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               // star_formation_logger_log_new_spart(sp, &c->stars.sfh);
 
               /* Update the h_max */
-              c->stars.h_max = max(c->stars.h_max, sp->h);
-              c->stars.h_max_active = max(c->stars.h_max_active, sp->h);
-
-              message("a dealing with %d-th: %lld %e", k, sp->id, sp->mass);
-
-              struct spart * sp_new = cell_add_spart(e, c);
-              sp_new->id = space_get_new_unique_id(e->s);
-              message("b dealing with %d-th: %lld %e",k,sp->id,sp->mass);
-              message("c dealing with %d-th: %lld",k,sp_new->id);              
-              error("just stop here");
+              // c->stars.h_max = max(c->stars.h_max, sp->h);
+              // c->stars.h_max_active = max(c->stars.h_max_active, sp->h);
 
             } else if (swift_star_formation_model_creates_stars) {
 
