@@ -400,9 +400,9 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
             for(int ii = 0; ii<8; ii++)
             {
               if(ii==7)
-                spp[ii] = cell_spawn_new_spart_from_part(e,c,p,xp);
-              else
                 spp[ii] = cell_convert_part_to_spart(e, c, p, xp);     
+              else
+                spp[ii] = cell_spawn_new_spart_from_part(e,c,p,xp);
               star_formation_copy_properties(
                   p, xp, spp[ii], e, sf_props, cosmo, with_cosmology, phys_const,
                   hydro_props, us, cooling, 8 ); 
