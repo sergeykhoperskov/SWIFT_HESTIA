@@ -397,6 +397,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 
             message("Hydro part mass %e", hydro_get_mass(p));
 
+
             for(int ii = 0; ii<8; ii++)
             {
               if(ii==7)
