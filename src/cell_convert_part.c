@@ -1213,7 +1213,7 @@ struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
   message("Re-link done %d",gp->id_or_neg_offset);
 
   /* Synchronize clocks */
-  sp_new->gpart->time_bin = sp_new->time_bin; // or sp?
+  gp->time_bin = sp_new->time_bin; // or sp?
 
   /* Here comes the Sun! */
   message("Here comes the Sun!");
