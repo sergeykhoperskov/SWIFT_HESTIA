@@ -1235,7 +1235,7 @@ void runner_do_rt_tchem(struct runner *r, struct cell *c, int timer) {
  * @param timer 1 if the time is to be recorded.
  */
 void runner_do_split_stars(struct runner *r, struct cell *c, int timer){
-  error("we try to split stars function here");
+  message("we try to split stars function here");
 
 
   struct engine *e = r->e;
