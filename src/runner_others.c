@@ -1263,11 +1263,11 @@ void runner_do_split_stars(struct runner *r, struct cell *c, int timer){
 //      struct spart *restrict spp = &sparts[k];
       const struct spart * sp = &sparts[k];
 
-      if (abs(spp->birth_time-e->time)<1e-8)
+      if (abs(sp->birth_time-e->time)<1e-8)
       {      
 
         message("a spart-old count %d",c->stars.count);
-        message("b spart id %d %lld %e",k,spp->id,sp->mass);
+        message("b spart id %d %lld %e",k,sp->id,sp->mass);
 
         // struct spart * sp_new = cell_add_spart(e, c);
         // sp_new->id = space_get_new_unique_id(e->s);
