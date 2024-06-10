@@ -440,16 +440,16 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               c->stars.h_max_active = max(c->stars.h_max_active, sp->h);
 
               /* SAKh */
-              message("sp a id = %lld",sp->id);
-              message("sp a2 id = %lld",sp->gpart->id_or_neg_offset);
-              message("sp a3 type = %d",sp->gpart->type);
-              struct spart *sp_new = cell_add_spart(e, c);
-              sp_new->id = space_get_new_unique_id(e->s);
-              // struct spart *sp_new = NULL;
-              // sp_new = cell_spawn_new_spart_from_spart(e, c, sp);
-              message("sp_old b id = %lld",sp->id);
-              message("sp_new c id = %lld",sp_new->id);
-              error("just stop here");
+              // message("sp a id = %lld",sp->id);
+              // message("sp a2 id = %lld",sp->gpart->id_or_neg_offset);
+              // message("sp a3 type = %d",sp->gpart->type);
+              // struct spart *sp_new = cell_add_spart(e, c);
+              // sp_new->id = space_get_new_unique_id(e->s);
+              // // struct spart *sp_new = NULL;
+              // // sp_new = cell_spawn_new_spart_from_spart(e, c, sp);
+              // message("sp_old b id = %lld",sp->id);
+              // message("sp_new c id = %lld",sp_new->id);
+              // error("just stop here");
               /* SAKh */
 
               /* Update the displacement information */
@@ -511,12 +511,29 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
     } /* Loop over particles */
   }
 
+  message("new_stars_count %d %d",current_stars_count,c->stars.count);
+
   /* If we formed any stars, the star sorts are now invalid. We need to
    * re-compute them. */
   if (with_feedback && (c == c->top) &&
       (current_stars_count != c->stars.count)) {
     cell_set_star_resort_flag(c);
   }
+
+
+/* SAKh */
+  const int new_stars_count = c->stars.count;
+  message("new_stars_count %d",new_stars_count);
+
+/* Loop over the star particles in this cell. */
+//    for (int k = 0; k < new_stars_count; k++) {
+  //    /* Get a handle on the part. */
+    //  struct spart *restrict spp = &sparts[k];
+   // }
+
+  error("just stop here");
+
+/* SAKh */
 
   if (timer) TIMER_TOC(timer_do_star_formation);
 }
@@ -706,6 +723,9 @@ void runner_do_end_hydro_force(struct runner *r, struct cell *c, int timer) {
       }
     }
   }
+
+
+
 
   if (timer) TIMER_TOC(timer_end_hydro_force);
 }
