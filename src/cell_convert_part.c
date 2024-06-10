@@ -875,10 +875,11 @@ struct spart *cell_convert_part_to_spart(struct engine *e, struct cell *c,
   sp->x_diff[2] = xp->x_diff[2];
 
   /* Destroy the gas particle and get it's gpart friend */
-  struct gpart *gp = cell_convert_part_to_gpart(e, c, p, xp);
+  // struct gpart *gp = cell_convert_part_to_gpart(e, c, p, xp);
+  struct gpart *gp = cell_add_gpart(e, c);
 
   /* Assign the ID back */
-  sp->id = gp->id_or_neg_offset;
+  sp->id = space_get_new_unique_id(e->s);//gp->id_or_neg_offset;
   gp->type = swift_type_stars;
 
   /* Re-link things */
