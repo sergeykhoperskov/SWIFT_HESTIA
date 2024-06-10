@@ -526,10 +526,11 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
   message("new_stars_count %d",new_stars_count);
 
 /* Loop over the star particles in this cell. */
-//    for (int k = 0; k < new_stars_count; k++) {
-  //    /* Get a handle on the part. */
-    //  struct spart *restrict spp = &sparts[k];
-   // }
+    for (int k = 0; k < new_stars_count; k++) {
+      /* Get a handle on the part. */
+      struct spart *restrict spp = &sparts[k];
+      message("spart id %lld",spp->id);
+    }
 
   error("just stop here");
 
