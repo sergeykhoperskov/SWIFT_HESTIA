@@ -540,6 +540,7 @@ if(current_stars_count != c->stars.count)
     for (int k = 0; k < new_stars_count; k++) 
     {
       /* Get a handle on the part. */    
+//      struct spart *restrict spp = &sparts[k];
       struct spart *restrict spp = &sparts[k];
       if (abs(spp->birth_time-e->time)<1e-8)
       {      
@@ -547,7 +548,7 @@ if(current_stars_count != c->stars.count)
         message("a spart-old count %d",c->stars.count);
         message("b spart id %d %lld %e",k,spp->id,spp->mass);
 
-        struct spart *sp_new = cell_add_spart(e, c);
+        struct spart *restrict sp_new = cell_add_spart(e, c);
         sp_new->id = space_get_new_unique_id(e->s);
         message("c spart-new id %d %lld %lld %e",k,spp->id,sp_new->id,spp->mass);
         message("d spart-new count %d",c->stars.count);
