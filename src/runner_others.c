@@ -404,7 +404,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
                   p, xp, spp[ii], e, sf_props, cosmo, with_cosmology, phys_const,
                   hydro_props, us, cooling, 0 ); 
               message("We formed a star id=%lld, old stars count=%d, current %d, mass %e", 
-              spp[ii]->id, current_stars_count, c->stars.count, sp->mass);       
+              spp[ii]->id, current_stars_count, c->stars.count, spp[ii]->mass);       
             }
             error("stop it now");
 
