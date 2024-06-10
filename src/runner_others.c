@@ -545,7 +545,7 @@ if(current_stars_count != c->stars.count)
       {      
 
         message("a spart-old count %d",c->stars.count);
-        message("b spart id %d %lld",k,spp->id,spp->mass);
+        message("b spart id %d %lld %e",k,spp->id,spp->mass);
 
         struct spart *sp_new = cell_add_spart(e, c);
         sp_new->id = space_get_new_unique_id(e->s);
