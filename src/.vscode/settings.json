@@ -5,6 +5,7 @@
         "chrono": "c",
         "map": "c",
         "unordered_map": "c",
-        "__locale": "c"
+        "__locale": "c",
+        "system_error": "c"
     }
 }

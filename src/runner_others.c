@@ -557,6 +557,10 @@ if(current_stars_count != c->stars.count)
         message("e spart-new id %d %lld %lld %e",k,spp->id,sp_new->id,spp->mass);
         message("f spart-new count %d",c->stars.count);
 
+        cell_remove_spart(e,c,sp_new);
+        message("j spart id %d %lld %e",k,spp->id,spp->mass);
+        message("h spart-new count %d",c->stars.count);
+
        error("just stop here now");
 
       }
