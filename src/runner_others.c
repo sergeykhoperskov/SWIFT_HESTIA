@@ -425,7 +425,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
             /* Did we get a star? (Or did we run out of spare ones?) */
             if (sp != NULL) {
 
-              message("We formed a star id=%lld", sp->id); 
+              message("We formed a star id=%lld, old stars count=%d, current %d", sp->id, current_stars_count, c->stars.count); 
               /* message("We formed a star id=%lld cellID=%lld", sp->id,
                * c->cellID); */
 
@@ -442,13 +442,13 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               c->stars.h_max_active = max(c->stars.h_max_active, sp->h);
 
 
-                message("a dealing with %d-th: %lld %e",k,sp->id,sp->mass);
+              message("a dealing with %d-th: %lld %e",k,sp->id,sp->mass);
 
-                struct spart * sp_new = cell_add_spart(e, c);
-                sp_new->id = space_get_new_unique_id(e->s);
-                message("b dealing with %d-th: %lld %e",k,sp->id,sp->mass);
-                message("c dealing with %d-th: %lld",k,sp_new->id);              
-                error("just stop here");
+              struct spart * sp_new = cell_add_spart(e, c);
+              sp_new->id = space_get_new_unique_id(e->s);
+              message("b dealing with %d-th: %lld %e",k,sp->id,sp->mass);
+              message("c dealing with %d-th: %lld",k,sp_new->id);              
+              error("just stop here");
 
 
               /* Update the displacement information */
