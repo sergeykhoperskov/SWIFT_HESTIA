@@ -1235,57 +1235,58 @@ void runner_do_rt_tchem(struct runner *r, struct cell *c, int timer) {
  * @param timer 1 if the time is to be recorded.
  */
 void runner_do_split_stars(struct runner *r, struct cell *c, int timer){
-message("we try to split stars function here");
+  error("we try to split stars function here");
 
 
-//   struct engine *e = r->e;
-//   const struct cosmology *cosmo = e->cosmology;
-//   const struct star_formation *sf_props = e->star_formation;
-//   const struct phys_const *phys_const = e->physical_constants;
-//   const int with_cosmology = (e->policy & engine_policy_cosmology);
-//   const int with_feedback = (e->policy & engine_policy_feedback);
-//   const double time_base = e->time_base;
-//   const integertime_t ti_current = e->ti_current;
-//   const int current_stars_count = c->stars.count;
-//   int ifstars_formed = 0;
-//   struct spart * sparts = c->stars.parts;
+  struct engine *e = r->e;
+  const struct cosmology *cosmo = e->cosmology;
+  const struct star_formation *sf_props = e->star_formation;
+  const struct phys_const *phys_const = e->physical_constants;
+  const int with_cosmology = (e->policy & engine_policy_cosmology);
+  const int with_feedback = (e->policy & engine_policy_feedback);
+  const double time_base = e->time_base;
+  const integertime_t ti_current = e->ti_current;
+  const int current_stars_count = c->stars.count;
+  int ifstars_formed = 0;
+  struct spart * sparts = c->stars.parts;
 
-//   TIMER_TIC;
 
-// #ifdef SWIFT_DEBUG_CHECKS
-//   if (c->nodeID != e->nodeID)
-//     error("Running star formation task on a foreign node!");
-// #endif
+#ifdef SWIFT_DEBUG_CHECKS
+  if (c->nodeID != e->nodeID)
+    error("Running star formation task on a foreign node!");
+#endif
 
-// /* Loop over the star particles in this cell. */
-//     for (int k = 0; k < new_stars_count; k++) 
-//     {
-//       /* Get a handle on the part. */    
-// //      struct spart *restrict spp = &sparts[k];
-//       const struct spart * spp = &sparts[k];
-//       if (abs(spp->birth_time-e->time)<1e-8)
-//       {      
+/* Loop over the star particles in this cell. */
+    for (int k = 0; k < new_stars_count; k++) 
+    {
+      /* Get a handle on the part. */    
+//      struct spart *restrict spp = &sparts[k];
+      const struct spart * sp = &sparts[k];
 
-//         message("a spart-old count %d",c->stars.count);
-//         message("b spart id %d %lld %e",k,spp->id,spp->mass);
+      if (abs(spp->birth_time-e->time)<1e-8)
+      {      
 
-//         struct spart * sp_new = cell_add_spart(e, c);
-//         sp_new->id = space_get_new_unique_id(e->s);
-//         message("c spart-new id %d %lld %lld %e",k,spp->id,sp_new->id,spp->mass);
-//         message("d spart-new count %d",c->stars.count);
-//         struct gpart * gp = cell_add_gpart(e, c);
-//         sp_new->gpart = gp;
-//         message("e spart-new id %d %lld %lld %e",k,spp->id,sp_new->id,spp->mass);
-//         message("f spart-new count %d",c->stars.count);
+        message("a spart-old count %d",c->stars.count);
+        message("b spart id %d %lld %e",k,spp->id,sp->mass);
 
-//         cell_remove_spart(e,c,sp_new);
-//         message("j spart id %d %lld %e",k,spp->id,spp->mass);
-//         message("h spart-new count %d",c->stars.count);
+        // struct spart * sp_new = cell_add_spart(e, c);
+        // sp_new->id = space_get_new_unique_id(e->s);
+        // message("c spart-new id %d %lld %lld %e",k,spp->id,sp_new->id,spp->mass);
+        // message("d spart-new count %d",c->stars.count);
+        // struct gpart * gp = cell_add_gpart(e, c);
+        // sp_new->gpart = gp;
+        // message("e spart-new id %d %lld %lld %e",k,spp->id,sp_new->id,spp->mass);
+        // message("f spart-new count %d",c->stars.count);
 
-//        error("just stop here now");
+        // cell_remove_spart(e,c,sp_new);
+        // message("j spart id %d %lld %e",k,spp->id,spp->mass);
+        // message("h spart-new count %d",c->stars.count);
 
-//       }
-//     }
+//       error("just stop here now");
+
+      }
+       error("just stop here now");
+    }
 
 
 
