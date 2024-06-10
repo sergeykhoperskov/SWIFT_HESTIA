@@ -1166,7 +1166,7 @@ struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
 
   /* Did we run out of free spart slots? */
   if (sp_new == NULL){
-    message("We run out of free spart slots");
+     message("We run out of free spart slots");
      return NULL;
   }
   else
@@ -1201,9 +1201,7 @@ struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
   /* Assign the ID. */
   sp_new->id = space_get_new_unique_id(e->s);
   message("sp id done %d",sp_new->id);
-  // sp_new->gpart->type = swift_type_stars;
   gp->type = swift_type_stars;
-  //message("IDs done ");
   message("IDs done: %d",gp->type);
 
   /* Re-link things */
