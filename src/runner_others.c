@@ -541,7 +541,7 @@ if(current_stars_count != c->stars.count)
     {
       /* Get a handle on the part. */    
       struct spart *restrict spp = &sparts[k];
-      if (spp->birth_time==e->time)
+      if (abs(spp->birth_time-e->time)<1e-8)
       {      
         message("spart id %d %lld %f %f %e",k,spp->id,spp->birth_time,e->time,spp->mass);
       }
