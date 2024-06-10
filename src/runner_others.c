@@ -402,7 +402,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               spp[ii]->id, current_stars_count, c->stars.count);       
               star_formation_copy_properties(
                   p, xp, spp[ii], e, sf_props, cosmo, with_cosmology, phys_const,
-                  hydro_props, us, cooling, !spawn_spart); 
+                  hydro_props, us, cooling, 0 ); 
             }
             error("stop it now");
 
