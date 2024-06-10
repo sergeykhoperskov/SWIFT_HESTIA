@@ -1207,8 +1207,8 @@ struct spart *cell_spawn_new_spart_from_spart(struct engine *e, struct cell *c,
   //message("IDs done: %d",sp_new->gpart->type);
 
   /* Re-link things */
-  sp_new->gpart = gp;
-  message("sp_new gpart type: %d",sp_new->gpart->type);
+//  sp_new->gpart = gp;
+  //message("sp_new gpart type: %d",sp_new->gpart->type);
   sp_new->gpart->id_or_neg_offset = -(sp_new - e->s->sparts);
   message("Re-link done");
 
