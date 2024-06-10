@@ -439,6 +439,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               c->stars.h_max = max(c->stars.h_max, sp->h);
               c->stars.h_max_active = max(c->stars.h_max_active, sp->h);
 
+              /* SAKh */
               message("sp a id = %lld",sp->id);
               message("sp a2 id = %lld",sp->gpart->id_or_neg_offset);
               message("sp a3 type = %d",sp->gpart->type);
@@ -447,7 +448,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               message("sp_old b id = %lld",sp->id);
               message("sp_new id = %lld",sp_new->id);
               error("just stop here");
-
+              /* SAKh */
 
               /* Update the displacement information */
               if (star_formation_need_update_dx_max) {
@@ -694,7 +695,8 @@ void runner_do_end_hydro_force(struct runner *r, struct cell *c, int timer) {
 
           /* Some values need to be reset in the Gizmo case. */
           hydro_prepare_force(p, &c->hydro.xparts[k], cosmo,
-                              e->hydro_properties, 0, 0);
+                              e->hydro_properties, e->pressure_floor_props,
+                              /*dt_alpha=*/0, /*dt_therm=*/0);
           rt_prepare_force(p);
 #endif
         }
@@ -1153,7 +1155,7 @@ void runner_do_rt_tchem(struct runner *r, struct cell *c, int timer) {
         error("Got part with negative time-step: %lld, %.6g", p->id, dt);
 #endif
 
-      rt_finalise_transport(p, dt, cosmo);
+      rt_finalise_transport(p, rt_props, dt, cosmo);
 
       /* And finally do thermochemistry */
       rt_tchem(p, xp, rt_props, cosmo, hydro_props, phys_const, us, dt);
