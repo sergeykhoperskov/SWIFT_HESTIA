@@ -529,7 +529,7 @@ if(current_stars_count != c->stars.count)
 
 
 /* SAKh */
-  if(ifstars_formed == 1)
+  if(0) //ifstars_formed == 1)
   {
     const int new_stars_count = c->stars.count;
     message("new_stars_count %d",new_stars_count);
