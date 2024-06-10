@@ -444,8 +444,8 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               message("sp a3 type = %d",sp->gpart->type);
               struct spart *sp_new = NULL;
               sp_new = cell_spawn_new_spart_from_spart(e, c, sp);
-              message("sp b id = %lld",sp->id);
-              message("sp c id = %lld",sp_new->id);
+              message("sp_old b id = %lld",sp->id);
+              message("sp_new id = %lld",sp_new->id);
               error("just stop here");
 
 
