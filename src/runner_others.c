@@ -456,6 +456,15 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
                    this task is always called at the top-level */
                 c->hydro.dx_max_part = max(c->hydro.dx_max_part, dx_part);
                 c->hydro.dx_max_sort = max(c->hydro.dx_max_sort, dx_sort);
+              
+              
+                message("a dealing with %d-th: %lld %e",k,sp->id,sp->mass);
+
+                struct spart * sp_new = cell_add_spart(e, c);
+                sp_new->id = space_get_new_unique_id(e->s);
+                message("b dealing with %d-th: %lld %e",k,sp->id,sp->mass);
+                message("c dealing with %d-th: %lld",k,sp_new->id);              
+                error("just stop here");
               }
 
 #ifdef WITH_CSDS
@@ -499,52 +508,52 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
     } /* Loop over particles */
 
 /* SAKh */
-if(current_stars_count != c->stars.count)
-{
-    ifstars_formed = 1;
-    message("new_stars_count %d %d",current_stars_count,c->stars.count);
-}
+// if(current_stars_count != c->stars.count)
+// {
+//     ifstars_formed = 1;
+//     message("new_stars_count %d %d",current_stars_count,c->stars.count);
+// }
 
-/* SAKh */
-  if(ifstars_formed == 1)
-  {
-    int number_new_stars = 0;
+// /* SAKh */
+//   if(ifstars_formed == 1)
+//   {
+//     int number_new_stars = 0;
 
-    struct spart * sparts = c->stars.parts;
+//     struct spart * sparts = c->stars.parts;
 
-    /* Loop over the star particles in this cell. */
-    for (int k = 0; k < current_stars_count; k++) 
-    {
-        const struct spart * sp = &sparts[k];
-        if (abs(sp->birth_time-e->time)<1e-8)
-          number_new_stars++;
-    }
+//     /* Loop over the star particles in this cell. */
+//     for (int k = 0; k < current_stars_count; k++) 
+//     {
+//         const struct spart * sp = &sparts[k];
+//         if (abs(sp->birth_time-e->time)<1e-8)
+//           number_new_stars++;
+//     }
 
-    if(number_new_stars>0)
-      message("number of stars %d new %d ",current_stars_count,number_new_stars);
+//     if(number_new_stars>0)
+//       message("number of stars %d new %d ",current_stars_count,number_new_stars);
       
-    for (int k = 0; k < current_stars_count; k++) 
-    {
-        const struct spart * sp = &sparts[k];
-        if (abs(sp->birth_time-e->time)<1e-8)
-        {
-          message("a dealing with %d-th: %lld %e",k,sp->id,sp->mass);
+//     for (int k = 0; k < current_stars_count; k++) 
+//     {
+//         const struct spart * sp = &sparts[k];
+//         if (abs(sp->birth_time-e->time)<1e-8)
+//         {
+//           message("a dealing with %d-th: %lld %e",k,sp->id,sp->mass);
 
-          struct spart * sp_new = cell_add_spart(e, c);
-          sp_new->id = space_get_new_unique_id(e->s);
-          message("b dealing with %d-th: %lld %e",k,sp->id,sp->mass);
-          message("c dealing with %d-th: %lld",k,sp_new->id);
+//           struct spart * sp_new = cell_add_spart(e, c);
+//           sp_new->id = space_get_new_unique_id(e->s);
+//           message("b dealing with %d-th: %lld %e",k,sp->id,sp->mass);
+//           message("c dealing with %d-th: %lld",k,sp_new->id);
           
-          number_new_stars--;
-        }
+//           number_new_stars--;
+//         }
 
-        if(number_new_stars==0)
-        break;
-    }
+//         if(number_new_stars==0)
+//         break;
+//     }
 
 
-    message("new number of stars %d unsplitted %d ",current_stars_count,number_new_stars);
-    error("just stop here");
+//     message("new number of stars %d unsplitted %d ",current_stars_count,number_new_stars);
+//     error("just stop here");
     }
 /* SAKh */
 
