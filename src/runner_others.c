@@ -1249,6 +1249,7 @@ void runner_do_split_stars(struct runner *r, struct cell *c, int timer){
   const int current_stars_count = c->stars.count;
   int ifstars_formed = 0;
   int number_new_stars = 0;
+  int tmp_number_new_stars = 0;
   struct spart * sparts = c->stars.parts;
 
 
@@ -1265,16 +1266,35 @@ message("number of stars %d",current_stars_count);
       /* Get a handle on the part. */    
       const struct spart * sp = &sparts[k];
       if (abs(sp->birth_time-e->time)<1e-8)
-      {      
         number_new_stars++;
-      }
     }
 
     if(number_new_stars>0)
-    error("number of new stars %d",number_new_stars);
+    message("number of new stars %d",number_new_stars);
+
+    for (int k = 0; k < current_stars_count; k++) 
+    {
+      /* Get a handle on the part. */    
+      const struct spart * sp = &sparts[k];
+      if (abs(sp->birth_time-e->time)<1e-8)
+      {
+          message("a sp statistics %d",k,sp->id);
+
+          struct spart * sp_new = cell_add_spart(e, c);
+          sp_new->id = space_get_new_unique_id(e->s);
+
+          message("b sp statistics %d",k,sp->id,sp_new->id);
+
+        number_new_stars--;
+      }
+
+      if(number_new_stars==0)
+        break;
+    }
 
 
 
+  error("STOP HERE %d",number_new_stars);
 
 }
 
