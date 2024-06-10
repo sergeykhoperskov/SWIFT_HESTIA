@@ -425,6 +425,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
             /* Did we get a star? (Or did we run out of spare ones?) */
             if (sp != NULL) {
 
+              message("We formed a star id=%lld", sp->id); 
               /* message("We formed a star id=%lld cellID=%lld", sp->id,
                * c->cellID); */
 
@@ -439,6 +440,16 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               /* Update the h_max */
               c->stars.h_max = max(c->stars.h_max, sp->h);
               c->stars.h_max_active = max(c->stars.h_max_active, sp->h);
+
+
+                message("a dealing with %d-th: %lld %e",k,sp->id,sp->mass);
+
+                struct spart * sp_new = cell_add_spart(e, c);
+                sp_new->id = space_get_new_unique_id(e->s);
+                message("b dealing with %d-th: %lld %e",k,sp->id,sp->mass);
+                message("c dealing with %d-th: %lld",k,sp_new->id);              
+                error("just stop here");
+
 
               /* Update the displacement information */
               if (star_formation_need_update_dx_max) {
@@ -456,15 +467,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
                    this task is always called at the top-level */
                 c->hydro.dx_max_part = max(c->hydro.dx_max_part, dx_part);
                 c->hydro.dx_max_sort = max(c->hydro.dx_max_sort, dx_sort);
-              
-              
-                message("a dealing with %d-th: %lld %e",k,sp->id,sp->mass);
-
-                struct spart * sp_new = cell_add_spart(e, c);
-                sp_new->id = space_get_new_unique_id(e->s);
-                message("b dealing with %d-th: %lld %e",k,sp->id,sp->mass);
-                message("c dealing with %d-th: %lld",k,sp_new->id);              
-                error("just stop here");
+                            
               }
 
 #ifdef WITH_CSDS
@@ -480,6 +483,9 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               csds_log_spart(e->csds, sp, e, /* log_all */ 1, csds_flag_create,
                              /* data */ 0);
 #endif
+
+
+
             } else if (swift_star_formation_model_creates_stars) {
 
               /* Do something about the fact no star could be formed.
@@ -557,8 +563,6 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 /* SAKh */
 
     }
-
-  // }
 
   /* If we formed any stars, the star sorts are now invalid. We need to
    * re-compute them. */
