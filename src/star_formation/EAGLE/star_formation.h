@@ -579,10 +579,10 @@ INLINE static void star_formation_copy_properties(
     const int convert_part) {
 
   /* Store the current mass */
-  sp->mass = hydro_get_mass(p)/8;
+  sp->mass = hydro_get_mass(p)/convert_part;
 
   /* Store the current mass as the initial mass */
-  sp->mass_init = hydro_get_mass(p);
+  sp->mass_init = hydro_get_mass(p)/convert_part;
 
   /* Store either the birth_scale_factor or birth_time depending  */
   if (with_cosmology) {
