@@ -544,12 +544,14 @@ if(current_stars_count != c->stars.count)
       if (abs(spp->birth_time-e->time)<1e-8)
       {      
 
+        message("spart-new count %d",c->stars.count);
         message("spart id %d %lld %f %f %e",k,spp->id,spp->birth_time,e->time,spp->mass);
 
         struct spart *sp_new = cell_add_spart(e, c);
         sp_new->id = space_get_new_unique_id(e->s);
 
         message("spart-new id %d %lld %f %f %e",k,spp->id,sp_new->id);
+        message("spart-new count %d",c->stars.count);
 
        error("just stop here now");
 
