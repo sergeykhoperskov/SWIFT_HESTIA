@@ -392,14 +392,15 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
                                                     dt_star)) {
 
             /* Convert the gas particle to a star particle */
-            // struct spart *sp = cell_convert_part_to_spart(e, c, p, xp);
-            struct spart *sp = cell_add_spart(e, c);
-            sp->id = space_get_new_unique_id(e->s);
+            struct spart *sp = cell_convert_part_to_spart(e, c, p, xp);
+            // struct spart *sp = cell_add_spart(e, c);
+            // sp->id = space_get_new_unique_id(e->s);
 
             /* Did we get a star? (Or did we run out of spare ones?) */
             if (sp != NULL) {
 
-              message("We formed a star id=%lld, old stars count=%d, current %d", sp->id, current_stars_count, c->stars.count); 
+              message("We formed a star id=%lld, old stars count=%d, current %d", 
+              sp->id, current_stars_count, c->stars.count); 
               /* message("We formed a star id=%lld cellID=%lld", sp->id,
                * c->cellID); */
 
