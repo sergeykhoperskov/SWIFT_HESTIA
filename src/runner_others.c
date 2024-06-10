@@ -549,8 +549,10 @@ if(current_stars_count != c->stars.count)
 
         struct spart *sp_new = cell_add_spart(e, c);
         sp_new->id = space_get_new_unique_id(e->s);
-        // struct gpart *gp = cell_add_gpart(e, c);
-        // sp_new->gpart = gp;
+        message("spart-new id %d %lld %lld %e",k,spp->id,sp_new->id,spp->mass);
+        message("spart-new count %d",c->stars.count);
+        struct gpart *gp = cell_add_gpart(e, c);
+        sp_new->gpart = gp;
         message("spart-new id %d %lld %lld %e",k,spp->id,sp_new->id,spp->mass);
         message("spart-new count %d",c->stars.count);
 
