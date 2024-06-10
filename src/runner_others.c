@@ -543,7 +543,7 @@ if(current_stars_count != c->stars.count)
       struct spart *restrict spp = &sparts[k];
       if (spp->birth_time==e->time)
       {      
-        message("spart id %d %lld %f %f",k,spp->id,spp->birth_time,e->time);
+        message("spart id %d %lld %f %f %e",k,spp->id,spp->birth_time,e->time,spp->mass);
       }
     }
 
