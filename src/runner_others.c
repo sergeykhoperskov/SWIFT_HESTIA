@@ -1270,7 +1270,9 @@ message("number of stars %d",current_stars_count);
     }
 
     if(number_new_stars>0)
-    message("number of new stars %d",number_new_stars);
+      message("number of new stars %d",number_new_stars);
+    else
+      return;
 
     for (int k = 0; k < current_stars_count; k++) 
     {
