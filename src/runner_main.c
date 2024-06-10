@@ -557,7 +557,7 @@ void *runner_main(void *data) {
           break;
         case task_type_star_formation:
           runner_do_star_formation(r, t->ci, 1);
-          runner_do_split_stars(r,t->ci,1);
+//          runner_do_split_stars(r,t->ci,1);
           break;
         case task_type_star_formation_sink:
           runner_do_star_formation_sink(r, t->ci, 1);

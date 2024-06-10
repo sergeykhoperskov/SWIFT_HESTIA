@@ -440,21 +440,6 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               c->stars.h_max = max(c->stars.h_max, sp->h);
               c->stars.h_max_active = max(c->stars.h_max_active, sp->h);
 
-              /* SAKh */
-              // message("sp a id = %lld",sp->id);
-              // message("sp a2 id = %lld",sp->gpart->id_or_neg_offset);
-              // message("sp a3 type = %d",sp->gpart->type);
-              // struct spart *sp_new = cell_add_spart(e, c);
-              // sp_new->id = space_get_new_unique_id(e->s);
-              // // struct spart *sp_new = NULL;
-              // // sp_new = cell_spawn_new_spart_from_spart(e, c, sp);
-              // message("sp_old b id = %lld",sp->id);
-              // message("sp_new c id = %lld",sp_new->id);
-              // error("just stop here");
-              // ifstars_formed = 1;
-
-              /* SAKh */
-
               /* Update the displacement information */
               if (star_formation_need_update_dx_max) {
                 const float dx2_part = xp->x_diff[0] * xp->x_diff[0] +
@@ -512,13 +497,38 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
         }
       }
     } /* Loop over particles */
-  }
 
+/* SAKh */
 if(current_stars_count != c->stars.count)
 {
     ifstars_formed = 1;
     message("new_stars_count %d %d",current_stars_count,c->stars.count);
 }
+
+/* SAKh */
+  if(ifstars_formed == 1)
+  {
+    int number_new_stars = 0;
+
+    struct spart * sparts = c->stars.parts;
+
+    /* Loop over the star particles in this cell. */
+    for (int k = 0; k < current_stars_count; k++) 
+    {
+        /* Get a handle on the part. */    
+        const struct spart * sp = &sparts[k];
+        if (abs(sp->birth_time-e->time)<1e-8)
+          number_new_stars++;
+    }
+
+    if(number_new_stars>0)
+      message("number of stars %d new %d ",current_stars_count,number_new_stars);
+      
+    error("just stop here");
+    }
+/* SAKh */
+
+  }
 
   /* If we formed any stars, the star sorts are now invalid. We need to
    * re-compute them. */
@@ -528,48 +538,6 @@ if(current_stars_count != c->stars.count)
   }
 
 
-/* SAKh */
-  if(0) //ifstars_formed == 1)
-  {
-    const int new_stars_count = c->stars.count;
-    message("new_stars_count %d",new_stars_count);
-
-    struct spart * sparts = c->stars.parts;
-
-/* Loop over the star particles in this cell. */
-    for (int k = 0; k < new_stars_count; k++) 
-    {
-      /* Get a handle on the part. */    
-//      struct spart *restrict spp = &sparts[k];
-      const struct spart * spp = &sparts[k];
-      if (abs(spp->birth_time-e->time)<1e-8)
-      {      
-
-        message("a spart-old count %d",c->stars.count);
-        message("b spart id %d %lld %e",k,spp->id,spp->mass);
-
-        struct spart * sp_new = cell_add_spart(e, c);
-        sp_new->id = space_get_new_unique_id(e->s);
-        message("c spart-new id %d %lld %lld %e",k,spp->id,sp_new->id,spp->mass);
-        message("d spart-new count %d",c->stars.count);
-        struct gpart * gp = cell_add_gpart(e, c);
-        sp_new->gpart = gp;
-        message("e spart-new id %d %lld %lld %e",k,spp->id,sp_new->id,spp->mass);
-        message("f spart-new count %d",c->stars.count);
-
-        cell_remove_spart(e,c,sp_new);
-        message("j spart id %d %lld %e",k,spp->id,spp->mass);
-        message("h spart-new count %d",c->stars.count);
-
-       error("just stop here now");
-
-      }
-    }
-
-   error("just stop here");
-  }
-
-/* SAKh */
 
   if (timer) TIMER_TOC(timer_do_star_formation);
 }
@@ -1235,7 +1203,7 @@ void runner_do_rt_tchem(struct runner *r, struct cell *c, int timer) {
  * @param timer 1 if the time is to be recorded.
  */
 void runner_do_split_stars(struct runner *r, struct cell *c, int timer){
-  message("we try to split stars function here");
+  error("we try to split stars function here");
 
 
   struct engine *e = r->e;
@@ -1270,9 +1238,11 @@ message("number of stars %d",current_stars_count);
     }
 
     if(number_new_stars>0)
-      message("number of new stars %d",number_new_stars);
+      message("number of stars %d new %d ",current_stars_count,number_new_stars);
     else
+      message("number of stars %d new %d -> skip",current_stars_count,number_new_stars);
       return;
+
 
     for (int k = 0; k < current_stars_count; k++) 
     {
