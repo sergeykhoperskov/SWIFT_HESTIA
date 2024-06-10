@@ -554,8 +554,9 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 
 //     message("new number of stars %d unsplitted %d ",current_stars_count,number_new_stars);
 //     error("just stop here");
-    }
 /* SAKh */
+
+    }
 
   // }
 
