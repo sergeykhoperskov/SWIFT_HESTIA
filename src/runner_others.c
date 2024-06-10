@@ -514,15 +514,17 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
     } /* Loop over particles */
   }
 
+if(current_stars_count != c->stars.count)
+{
+    ifstars_formed = 1;
+    message("new_stars_count %d %d",current_stars_count,c->stars.count);
+}
 
   /* If we formed any stars, the star sorts are now invalid. We need to
    * re-compute them. */
   if (with_feedback && (c == c->top) &&
       (current_stars_count != c->stars.count)) {
     cell_set_star_resort_flag(c);
-
-    ifstars_formed = 1;
-    message("new_stars_count %d %d",current_stars_count,c->stars.count);
   }
 
 
@@ -538,7 +540,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
     for (int k = 0; k < new_stars_count; k++) {
       /* Get a handle on the part. */
       struct spart *restrict spp = &sparts[k];
-      message("spart id %lld %f",spp->id,spp->birth_time);
+      message("spart id %d %lld %f %f",k,spp->id,spp->birth_time,e->time);
     }
 
    error("just stop here");
