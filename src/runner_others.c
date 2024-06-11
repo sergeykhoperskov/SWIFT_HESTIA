@@ -430,7 +430,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 
             for(int ii=0; ii<c->stars.count; ii++)
             {
-              struct spart * sps = &sparts[k];	
+              struct spart * sps = &sparts[ii];	
               message("------- all stars %d %lld",ii,sps->id);
             }
 
