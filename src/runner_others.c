@@ -398,17 +398,24 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
             /* SAKh */
             struct spart *spp[n_spart_to_split];
 
-            message("---------- Hydro part mass %e", hydro_get_mass(p));
+            message("---------- Hydro %d part mass %e", k, hydro_get_mass(p));
 
             for(int ii = 0; ii<n_spart_to_split; ii++)
             {
               spp[ii] = NULL;
 
-//              if(ii==n_spart_to_split-1)
-  //              spp[ii] = cell_convert_part_to_spart(e, c, p, xp);     
-    //          else
+           //  if(ii==n_spart_to_split-1)
+             //  spp[ii] = cell_convert_part_to_spart(e, c, p, xp);     
+             //else
                 spp[ii] = cell_spawn_new_spart_from_part(e, c, p, xp);
+/* Mark the particle as inhibited */
+  p->time_bin = time_bin_inhibited;
 
+  /* Un-link the part */
+  p->gpart = NULL;
+
+  atomic_inc(&e->s->nr_inhibited_parts);
+  
               message("a We formed %d star id=%lld, old stars count=%d, current %d, mass %e", 
               ii,spp[ii]->id, current_stars_count, c->stars.count, spp[ii]->mass);       
               
@@ -426,9 +433,9 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               spp[ii]->id, spp[ii]->gpart->a_grav[0], spp[ii]->gpart->a_grav[1], spp[ii]->gpart->a_grav[2]);       
             }
 
-            hydro_set_mass(p,hydro_get_mass(p)*1/2);
+            // hydro_set_mass(p,hydro_get_mass(p)*1/2);
 
-            message("---------- Hydro part mass %e", hydro_get_mass(p));
+            message("---------- Hydro %d part mass %e", k, hydro_get_mass(p));
 
             /* Did we get a star? (Or did we run out of spare ones?) */
             if (spp[n_spart_to_split-1] != NULL) {
@@ -480,8 +487,8 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
   
   /* If we formed any stars, the star sorts are now invalid. We need to
    * re-compute them. */
-  // if (with_feedback && (c == c->top) &&
-  if ((c == c->top) &&
+  if (with_feedback && (c == c->top) &&
+  // if ((c == c->top) &&
       (current_stars_count != c->stars.count)) {
     cell_set_star_resort_flag(c);
   }
