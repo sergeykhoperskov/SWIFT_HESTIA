@@ -428,7 +428,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 
             struct spart *const sparts = c->stars.parts;
 
-            for(int ii=0; ii<c->stars.count; i++)
+            for(int ii=0; ii<c->stars.count; ii++)
             {
               struct spart * sps = &sparts[k];	
               message("------- all stars %d %lld",ii,sps->id);
@@ -438,7 +438,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 
             message("---------- Hydro %d part mass %e", k, hydro_get_mass(p));
             error("JUST STOP HERE");
-            
+
             /* Did we get a star? (Or did we run out of spare ones?) */
             if (spp[n_spart_to_split-1] != NULL) {
 
