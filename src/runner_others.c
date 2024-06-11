@@ -1129,7 +1129,5 @@ void runner_do_rt_tchem(struct runner *r, struct cell *c, int timer) {
 void runner_do_split_stars(struct runner *r, struct cell *c, int timer){
   error("we try to split stars function here");
 
-  error("STOP HERE %d",number_new_stars);
-
 }
 
