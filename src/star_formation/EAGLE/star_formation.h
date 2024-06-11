@@ -619,15 +619,15 @@ INLINE static void star_formation_copy_properties(
 
   const float max_displacement = 0.1;
   const double delta_x =
-      2.f * random_unit_interval(p->id, e->ti_current,
+      2.f * random_unit_interval(sp->id, e->ti_current,
                                  (enum random_number_type)0) -
       1.f;
   const double delta_y =
-      2.f * random_unit_interval(p->id, e->ti_current,
+      2.f * random_unit_interval(sp->id, e->ti_current,
                                  (enum random_number_type)1) -
       1.f;
   const double delta_z =
-      2.f * random_unit_interval(p->id, e->ti_current,
+      2.f * random_unit_interval(sp->id, e->ti_current,
                                  (enum random_number_type)2) -
       1.f;
 
