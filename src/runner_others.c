@@ -398,7 +398,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
             /* SAKh */
             struct spart *spp[n_spart_to_split];
 
-            message("Hydro part mass %e", hydro_get_mass(p));
+            message("---------- Hydro part mass %e", hydro_get_mass(p));
 
             for(int ii = 0; ii<n_spart_to_split; ii++)
             {
@@ -409,14 +409,12 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               else
                 spp[ii] = cell_spawn_new_spart_from_part(e, c, p, xp);
 
-              message("a We formed a star id=%lld, old stars count=%d, current %d, mass %e", 
-              spp[ii]->id, current_stars_count, c->stars.count, spp[ii]->mass);       
-
+              message("a We formed %d star id=%lld, old stars count=%d, current %d, mass %e", 
+              ii,spp[ii]->id, current_stars_count, c->stars.count, spp[ii]->mass);       
+              
               star_formation_copy_properties(
                   p, xp, spp[ii], e, sf_props, cosmo, with_cosmology, phys_const,
                   hydro_props, us, cooling, n_spart_to_split ); 
-
-              star_formation_logger_log_new_spart(spp[ii], &c->stars.sfh);
 
               c->stars.h_max = max(c->stars.h_max, spp[ii]->h);
               c->stars.h_max_active = max(c->stars.h_max_active, spp[ii]->h);
@@ -431,8 +429,10 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 
             for(int ii = 0; ii<n_spart_to_split; ii++)
             {
-              message("c We formed a star id=%lld, old stars count=%d, current %d, mass %e", 
-              spp[ii]->id, current_stars_count, c->stars.count, spp[ii]->mass);       
+              star_formation_logger_log_new_spart(spp[ii], &c->stars.sfh);
+
+              message("c We formed %d star id=%lld, old stars count=%d, current %d, mass %e", 
+              ii,spp[ii]->id, current_stars_count, c->stars.count, spp[ii]->mass);       
               message("c coordinates id=%lld, %e, %e, %e", 
               spp[ii]->id, spp[ii]->x[0], spp[ii]->x[1], spp[ii]->x[2]);       
             }
