@@ -431,7 +431,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
             for(int ii=0; ii<c->stars.count; ii++)
             {
               struct spart * sps = &sparts[ii];	
-              message("------- all stars %d %lld %lld",ii,sps->id,sps->gp->id_or_neg_offset);
+              message("------- all stars %d %lld %lld",ii,sps->id,sps->gpart->id_or_neg_offset);
             }
 
             // hydro_set_mass(p,hydro_get_mass(p)*1/2);
