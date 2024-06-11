@@ -415,7 +415,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               message("We formed a star id=%lld, old stars count=%d, current %d, mass %e", 
               spp[ii]->id, current_stars_count, c->stars.count, spp[ii]->mass);       
               message("coordinated id=%lld, %e, %e, %e", 
-              spp[ii]->id, ssp[ii]->x[0], ssp[ii]->x[1], ssp[ii]->x[2]);       
+              spp[ii]->id, spp[ii]->x[0], spp[ii]->x[1], spp[ii]->x[2]);       
             }
 
             /* Did we get a star? (Or did we run out of spare ones?) */
