@@ -405,7 +405,22 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               if(ii==n_spart_to_split-1)
                 spp[ii] = cell_convert_part_to_spart(e, c, p, xp);     
               else
-                spp[ii] = cell_spawn_new_spart_from_part(e,c,p,xp);
+                spp[ii] = cell_spawn_new_spart_from_part(e, c, p, xp);
+
+              message("a We formed a star id=%lld, old stars count=%d, current %d, mass %e", 
+              spp[ii]->id, current_stars_count, c->stars.count, spp[ii]->mass);       
+            }
+            for(int ii = 0; ii<n_spart_to_split; ii++)
+            {
+              message("b We formed a star id=%lld, old stars count=%d, current %d, mass %e", 
+              spp[ii]->id, current_stars_count, c->stars.count, spp[ii]->mass);       
+            }
+
+            /* Did we get a star? (Or did we run out of spare ones?) */
+            if (spp[n_spart_to_split-1] != NULL) {
+
+            for(int ii = 0; ii<n_spart_to_split; ii++)
+            {
               star_formation_copy_properties(
                   p, xp, spp[ii], e, sf_props, cosmo, with_cosmology, phys_const,
                   hydro_props, us, cooling, n_spart_to_split ); 
@@ -416,18 +431,19 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               c->stars.h_max_active = max(c->stars.h_max_active, spp[ii]->h);
             }
 
-            /* Did we get a star? (Or did we run out of spare ones?) */
-            if (spp[n_spart_to_split-1] != NULL) {
-              
             for(int ii = 0; ii<n_spart_to_split; ii++)
             {
-              message("We formed a star id=%lld, old stars count=%d, current %d, mass %e", 
+              message("c We formed a star id=%lld, old stars count=%d, current %d, mass %e", 
               spp[ii]->id, current_stars_count, c->stars.count, spp[ii]->mass);       
-              message("coordinated id=%lld, %e, %e, %e", 
+              message("c coordinates id=%lld, %e, %e, %e", 
               spp[ii]->id, spp[ii]->x[0], spp[ii]->x[1], spp[ii]->x[2]);       
             }
 
-            } else if (swift_star_formation_model_creates_stars) {
+            } else if (swift_star_formation_model_creates_stars) 
+            {
+
+              /* SAKh here need to clean new particles bcs not all 
+              of them were created*/
 
               /* Do something about the fact no star could be formed.
                  Note that in such cases a tree rebuild to create more free
