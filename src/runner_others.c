@@ -419,7 +419,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               c->stars.h_max = max(c->stars.h_max, spp[ii]->h);
               c->stars.h_max_active = max(c->stars.h_max_active, spp[ii]->h);
 
-              message("b coordinates id=%lld, %e, %e, %e", 
+              message("b coords    %d id=%lld, %e, %e, %e", ii,
               spp[ii]->id, spp[ii]->x[0], spp[ii]->x[1], spp[ii]->x[2]);       
             }
 
@@ -433,7 +433,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 
               message("c We formed %d star id=%lld, old stars count=%d, current %d, mass %e", 
               ii,spp[ii]->id, current_stars_count, c->stars.count, spp[ii]->mass);       
-              message("c coordinates id=%lld, %e, %e, %e", 
+              message("c coords    %d id=%lld, %e, %e, %e", ii,
               spp[ii]->id, spp[ii]->x[0], spp[ii]->x[1], spp[ii]->x[2]);       
             }
 
