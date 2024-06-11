@@ -62,7 +62,7 @@
 #include "timestep_limiter.h"
 #include "tracers.h"
 
-#define n_spart_to_split 2
+#define n_spart_to_split 1
 /**
  * @brief Calculate gravity acceleration from external potential
  *
@@ -404,9 +404,9 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
             {
               spp[ii] = NULL;
 
-              if(ii==n_spart_to_split-1)
-                spp[ii] = cell_convert_part_to_spart(e, c, p, xp);     
-              else
+//              if(ii==n_spart_to_split-1)
+  //              spp[ii] = cell_convert_part_to_spart(e, c, p, xp);     
+    //          else
                 spp[ii] = cell_spawn_new_spart_from_part(e, c, p, xp);
 
               message("a We formed %d star id=%lld, old stars count=%d, current %d, mass %e", 
@@ -426,7 +426,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               spp[ii]->id, spp[ii]->gpart->a_grav[0], spp[ii]->gpart->a_grav[1], spp[ii]->gpart->a_grav[2]);       
             }
 
-            // hydro_set_mass(p,hydro_get_mass(p)*1/n_spart_to_split);
+            hydro_set_mass(p,hydro_get_mass(p)*1/2);
 
             message("---------- Hydro part mass %e", hydro_get_mass(p));
 
@@ -447,8 +447,8 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
             } else if (swift_star_formation_model_creates_stars) 
             {
 
-              /* SAKh here need to clean new particles bcs not all 
-              of them were created*/
+              /* SAKh TODO: here need to clean new particles bcs not all 
+              of them were really created*/
               message("THERE IS NOT ENOUGH SPACE FOR NEW PARTICLES");
 
               /* Do something about the fact no star could be formed.
@@ -477,7 +477,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
     } /* Loop over particles */
 
   }
-
+  
   /* If we formed any stars, the star sorts are now invalid. We need to
    * re-compute them. */
   // if (with_feedback && (c == c->top) &&
@@ -489,6 +489,14 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
   if (timer) TIMER_TOC(timer_do_star_formation);
 }
 
+// s->size_parts;
+//   s->nr_parts = k_parts;
+//   s->nr_gparts = k_gparts;
+  
+//   s->size_parts;
+//   s->size_gparts;
+//   s->size_sparts;
+  
 /**
  * @brief Creates sink particles.
  *
