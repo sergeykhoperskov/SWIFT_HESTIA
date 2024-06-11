@@ -62,7 +62,7 @@
 #include "timestep_limiter.h"
 #include "tracers.h"
 
-#define n_spart_to_split 1
+#define n_spart_to_split 8
 /**
  * @brief Calculate gravity acceleration from external potential
  *
@@ -404,17 +404,10 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
             {
               spp[ii] = NULL;
 
-           //  if(ii==n_spart_to_split-1)
-             //  spp[ii] = cell_convert_part_to_spart(e, c, p, xp);     
-             //else
+              if(ii==n_spart_to_split-1)
+                spp[ii] = cell_convert_part_to_spart(e, c, p, xp);     
+              else
                 spp[ii] = cell_spawn_new_spart_from_part(e, c, p, xp);
-/* Mark the particle as inhibited */
-  p->time_bin = time_bin_inhibited;
-
-  /* Un-link the part */
-  p->gpart = NULL;
-
-  atomic_inc(&e->s->nr_inhibited_parts);
   
               message("a We formed %d star id=%lld, old stars count=%d, current %d, mass %e", 
               ii,spp[ii]->id, current_stars_count, c->stars.count, spp[ii]->mass);       
