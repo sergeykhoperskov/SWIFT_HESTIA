@@ -62,6 +62,7 @@
 #include "timestep_limiter.h"
 #include "tracers.h"
 
+#define n_spart_to_split 8
 /**
  * @brief Calculate gravity acceleration from external potential
  *
@@ -393,19 +394,21 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 
             /* Convert the gas particle to a star particle */
             struct spart *sp;
-            struct spart *spp[8];
+
+            /* SAKh */
+            struct spart *spp[n_spart_to_split];
 
             message("Hydro part mass %e", hydro_get_mass(p));
 
-            for(int ii = 0; ii<8; ii++)
+            for(int ii = 0; ii<n_spart_to_split; ii++)
             {
-              if(ii==7)
+              if(ii==n_spart_to_split-1)
                 spp[ii] = cell_convert_part_to_spart(e, c, p, xp);     
               else
                 spp[ii] = cell_spawn_new_spart_from_part(e,c,p,xp);
               star_formation_copy_properties(
                   p, xp, spp[ii], e, sf_props, cosmo, with_cosmology, phys_const,
-                  hydro_props, us, cooling, 8 ); 
+                  hydro_props, us, cooling, n_spart_to_split ); 
 
               star_formation_logger_log_new_spart(spp[ii], &c->stars.sfh);
 
@@ -414,9 +417,9 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
             }
 
             /* Did we get a star? (Or did we run out of spare ones?) */
-            if (spp[7] != NULL) {
+            if (spp[n_spart_to_split-1] != NULL) {
               
-            for(int ii = 0; ii<8; ii++)
+            for(int ii = 0; ii<n_spart_to_split; ii++)
             {
               message("We formed a star id=%lld, old stars count=%d, current %d, mass %e", 
               spp[ii]->id, current_stars_count, c->stars.count, spp[ii]->mass);       
@@ -1126,88 +1129,7 @@ void runner_do_rt_tchem(struct runner *r, struct cell *c, int timer) {
 void runner_do_split_stars(struct runner *r, struct cell *c, int timer){
   error("we try to split stars function here");
 
-
-  struct engine *e = r->e;
-  const struct cosmology *cosmo = e->cosmology;
-  const struct star_formation *sf_props = e->star_formation;
-  const struct phys_const *phys_const = e->physical_constants;
-  const int with_cosmology = (e->policy & engine_policy_cosmology);
-  const int with_feedback = (e->policy & engine_policy_feedback);
-  const double time_base = e->time_base;
-  const integertime_t ti_current = e->ti_current;
-  const int current_stars_count = c->stars.count;
-  int ifstars_formed = 0;
-  int number_new_stars = 0;
-  int tmp_number_new_stars = 0;
-  struct spart * sparts = c->stars.parts;
-
-
-#ifdef SWIFT_DEBUG_CHECKS
-  if (c->nodeID != e->nodeID)
-    error("Running star formation task on a foreign node!");
-#endif
-
-message("number of stars %d",current_stars_count);
-
-/* Loop over the star particles in this cell. */
-    for (int k = 0; k < current_stars_count; k++) 
-    {
-      /* Get a handle on the part. */    
-      const struct spart * sp = &sparts[k];
-      if (abs(sp->birth_time-e->time)<1e-8)
-        number_new_stars++;
-    }
-
-    if(number_new_stars>0)
-      message("number of stars %d new %d ",current_stars_count,number_new_stars);
-    else
-      message("number of stars %d new %d -> skip",current_stars_count,number_new_stars);
-      return;
-
-
-    for (int k = 0; k < current_stars_count; k++) 
-    {
-      /* Get a handle on the part. */    
-      const struct spart * sp = &sparts[k];
-      if (abs(sp->birth_time-e->time)<1e-8)
-      {
-          message("a sp statistics %d %lld",k,sp->id);
-
-          struct spart * sp_new = cell_add_spart(e, c);
-          sp_new->id = space_get_new_unique_id(e->s);
-
-          message("b sp statistics %d %lld %lld",k,sp->id,sp_new->id);
-
-        number_new_stars--;
-      }
-
-      if(number_new_stars==0)
-        break;
-    }
-
-
-
   error("STOP HERE %d",number_new_stars);
 
 }
 
-
-
-//        message("a spart-old count %d",c->stars.count);
-  //      message("b spart id %d %lld %e",k,sp->id,sp->mass);
-//       error("just stop here now");
-
-        // struct spart * sp_new = cell_add_spart(e, c);
-        // sp_new->id = space_get_new_unique_id(e->s);
-        // message("c spart-new id %d %lld %lld %e",k,spp->id,sp_new->id,spp->mass);
-        // message("d spart-new count %d",c->stars.count);
-        // struct gpart * gp = cell_add_gpart(e, c);
-        // sp_new->gpart = gp;
-        // message("e spart-new id %d %lld %lld %e",k,spp->id,sp_new->id,spp->mass);
-        // message("f spart-new count %d",c->stars.count);
-
-        // cell_remove_spart(e,c,sp_new);
-        // message("j spart id %d %lld %e",k,spp->id,spp->mass);
-        // message("h spart-new count %d",c->stars.count);
-
-//       error("just stop here now");
