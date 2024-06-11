@@ -477,7 +477,8 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 
   /* If we formed any stars, the star sorts are now invalid. We need to
    * re-compute them. */
-  if (with_feedback && (c == c->top) &&
+  // if (with_feedback && (c == c->top) &&
+  if ((c == c->top) &&
       (current_stars_count != c->stars.count)) {
     cell_set_star_resort_flag(c);
   }
