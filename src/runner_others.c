@@ -397,7 +397,6 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 
             message("Hydro part mass %e", hydro_get_mass(p));
 
-
             for(int ii = 0; ii<8; ii++)
             {
               if(ii==7)
@@ -415,31 +414,13 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 
               message("We formed a star id=%lld, old stars count=%d, current %d, mass %e", 
               spp[ii]->id, current_stars_count, c->stars.count, spp[ii]->mass);       
+              message("coordinated id=%lld, %e, %e, %e", 
+              spp[ii]->id, ssp[ii]->x[0], ssp[ii]->x[1], ssp[ii]->x[2]);       
             }
-            error("stop it now");
-
-            // struct spart *sp = cell_add_spart(e, c);
-            // sp->id = space_get_new_unique_id(e->s);
 
             /* Did we get a star? (Or did we run out of spare ones?) */
-            if (sp != NULL) {
+            if (spp[7] != NULL) {
 
-              // message("We formed a star id=%lld, old stars count=%d, current %d", 
-              // sp->id, current_stars_count, c->stars.count); 
-              /* message("We formed a star id=%lld cellID=%lld", sp->id,
-               * c->cellID); */
-
-              /* Copy the properties of the gas particle to the star particle */
-              // star_formation_copy_properties(
-              //     p, xp, sp, e, sf_props, cosmo, with_cosmology, phys_const,
-              //     hydro_props, us, cooling, !spawn_spart);
-
-              /* Update the Star formation history */
-              // star_formation_logger_log_new_spart(sp, &c->stars.sfh);
-
-              /* Update the h_max */
-              // c->stars.h_max = max(c->stars.h_max, sp->h);
-              // c->stars.h_max_active = max(c->stars.h_max_active, sp->h);
 
             } else if (swift_star_formation_model_creates_stars) {
 
