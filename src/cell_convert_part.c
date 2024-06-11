@@ -876,10 +876,8 @@ struct spart *cell_convert_part_to_spart(struct engine *e, struct cell *c,
 
   /* Destroy the gas particle and get it's gpart friend */
    struct gpart *gp = cell_convert_part_to_gpart(e, c, p, xp);
-  //struct gpart *gp = cell_add_gpart(e, c);
-
+  
   /* Assign the ID back */
-  // sp->id = space_get_new_unique_id(e->s);//gp->id_or_neg_offset;
   sp->id = gp->id_or_neg_offset;
   gp->type = swift_type_stars;
 
@@ -970,13 +968,12 @@ struct spart *cell_spawn_new_spart_from_part(struct engine *e, struct cell *c,
 
   /* Synchronize masses, positions and velocities */
   sp->mass = hydro_get_mass(p);
-  sp->x[0] = p->x[0];
-  sp->x[1] = p->x[1];
-  sp->x[2] = p->x[2];
-  sp->v[0] = xp->v_full[0];
-  sp->v[1] = xp->v_full[1];
-  sp->v[2] = xp->v_full[2];
-
+  sp->x[0] = gp->x[0];
+  sp->x[1] = gp->x[1];
+  sp->x[2] = gp->x[2];
+  sp->v[0] = gp->v_full[0];
+  sp->v[1] = gp->v_full[1];
+  sp->v[2] = gp->v_full[2];
 #ifdef SWIFT_DEBUG_CHECKS
   sp->ti_kick = p->ti_kick;
   sp->ti_drift = p->ti_drift;
