@@ -424,6 +424,9 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 
               message("c agravs    %d id=%lld, %e, %e, %e", ii,
               spp[ii]->id, spp[ii]->gpart->a_grav[0], spp[ii]->gpart->a_grav[1], spp[ii]->gpart->a_grav[2]);       
+
+              message("c velocs    %d id=%lld, %e, %e, %e", ii,
+              spp[ii]->id, spp[ii]->gpart->v_full[0], spp[ii]->gpart->v_full[1], spp[ii]->gpart->v_full[2]);       
             }
 
             struct spart *const sparts = c->stars.parts;
