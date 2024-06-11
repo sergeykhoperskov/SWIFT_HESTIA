@@ -411,16 +411,18 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 
               c->stars.h_max = max(c->stars.h_max, spp[ii]->h);
               c->stars.h_max_active = max(c->stars.h_max_active, spp[ii]->h);
+            }
 
+            /* Did we get a star? (Or did we run out of spare ones?) */
+            if (spp[7] != NULL) {
+              
+            for(int ii = 0; ii<8; ii++)
+            {
               message("We formed a star id=%lld, old stars count=%d, current %d, mass %e", 
               spp[ii]->id, current_stars_count, c->stars.count, spp[ii]->mass);       
               message("coordinated id=%lld, %e, %e, %e", 
               spp[ii]->id, spp[ii]->x[0], spp[ii]->x[1], spp[ii]->x[2]);       
             }
-
-            /* Did we get a star? (Or did we run out of spare ones?) */
-            if (spp[7] != NULL) {
-
 
             } else if (swift_star_formation_model_creates_stars) {
 
