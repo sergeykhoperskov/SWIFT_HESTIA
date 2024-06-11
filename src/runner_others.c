@@ -62,7 +62,7 @@
 #include "timestep_limiter.h"
 #include "tracers.h"
 
-#define n_spart_to_split 8
+#define n_spart_to_split 1
 /**
  * @brief Calculate gravity acceleration from external potential
  *
@@ -422,7 +422,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               message("b coords    %d id=%lld, %e, %e, %e", ii,
               spp[ii]->id, spp[ii]->x[0], spp[ii]->x[1], spp[ii]->x[2]);       
 
-              message("c coords    %d id=%lld, %e, %e, %e", ii,
+              message("c agravs    %d id=%lld, %e, %e, %e", ii,
               spp[ii]->id, spp[ii]->gpart->a_grav[0], spp[ii]->gpart->a_grav[1], spp[ii]->gpart->a_grav[2]);       
             }
 
