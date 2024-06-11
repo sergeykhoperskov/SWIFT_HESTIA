@@ -437,7 +437,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
             // hydro_set_mass(p,hydro_get_mass(p)*1/2);
 
             message("---------- Hydro %d part mass %e", k, hydro_get_mass(p));
-            error("JUST STOP HERE");
+            //error("JUST STOP HERE");
 
             /* Did we get a star? (Or did we run out of spare ones?) */
             if (spp[n_spart_to_split-1] != NULL) {
