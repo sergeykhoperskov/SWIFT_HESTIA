@@ -426,10 +426,19 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               spp[ii]->id, spp[ii]->gpart->a_grav[0], spp[ii]->gpart->a_grav[1], spp[ii]->gpart->a_grav[2]);       
             }
 
+            struct spart *const sparts = c->stars.parts;
+
+            for(int ii=0; ii<c->stars.count; i++)
+            {
+              struct spart * sps = &sparts[k];	
+              message("------- all stars %d %lld",ii,sps->id);
+            }
+
             // hydro_set_mass(p,hydro_get_mass(p)*1/2);
 
             message("---------- Hydro %d part mass %e", k, hydro_get_mass(p));
-
+            error("JUST STOP HERE");
+            
             /* Did we get a star? (Or did we run out of spare ones?) */
             if (spp[n_spart_to_split-1] != NULL) {
 
@@ -438,9 +447,9 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               {
                 star_formation_logger_log_new_spart(spp[ii], &c->stars.sfh);
 
-                message("c We formed %d star id=%lld, old stars count=%d, current %d, mass %e", 
+                message("d We formed %d star id=%lld, old stars count=%d, current %d, mass %e", 
                 ii,spp[ii]->id, current_stars_count, c->stars.count, spp[ii]->mass);       
-                message("c coords    %d id=%lld, %e, %e, %e", ii,
+                message("e coords    %d id=%lld, %e, %e, %e", ii,
                 spp[ii]->id, spp[ii]->x[0], spp[ii]->x[1], spp[ii]->x[2]);       
               }
 
