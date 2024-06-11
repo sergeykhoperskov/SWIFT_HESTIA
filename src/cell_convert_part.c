@@ -963,8 +963,8 @@ struct spart *cell_spawn_new_spart_from_part(struct engine *e, struct cell *c,
   }
 
   /* Copy the gpart */
-  gp = p->gpart;
-
+  *gp = *p->gpart;
+  
   /* Assign the ID. */
   sp->id = space_get_new_unique_id(e->s);
   gp->type = swift_type_stars;
@@ -984,7 +984,7 @@ struct spart *cell_spawn_new_spart_from_part(struct engine *e, struct cell *c,
   sp->v[0] = gp->v_full[0];
   sp->v[1] = gp->v_full[1];
   sp->v[2] = gp->v_full[2];
-
+  
 #ifdef SWIFT_DEBUG_CHECKS
   sp->ti_kick = p->ti_kick;
   sp->ti_drift = p->ti_drift;
