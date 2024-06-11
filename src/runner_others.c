@@ -400,7 +400,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 
             message("---------- Hydro part mass %e", hydro_get_mass(p));
 
-            for(int ii = 0; ii<n_spart_to_split-1; ii++)
+            for(int ii = 0; ii<n_spart_to_split; ii++)
             {
               spp[ii] = NULL;
 
@@ -423,15 +423,15 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               spp[ii]->id, spp[ii]->x[0], spp[ii]->x[1], spp[ii]->x[2]);       
             }
 
-            hydro_set_mass(p,hydro_get_mass(p)*7/n_spart_to_split);
-            
+            // hydro_set_mass(p,hydro_get_mass(p)*1/n_spart_to_split);
+
             message("---------- Hydro part mass %e", hydro_get_mass(p));
 
             /* Did we get a star? (Or did we run out of spare ones?) */
             if (spp[n_spart_to_split-1] != NULL) {
 
 
-              for(int ii = 0; ii<n_spart_to_split-1; ii++)
+              for(int ii = 0; ii<n_spart_to_split; ii++)
               {
                 star_formation_logger_log_new_spart(spp[ii], &c->stars.sfh);
 
