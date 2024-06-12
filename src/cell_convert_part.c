@@ -854,10 +854,8 @@ struct gpart *cell_convert_spart_to_gpart(const struct engine *e,
  * @return A fresh #spart with the same ID, position, velocity and
  * time-bin as the original #part.
  */
-struct spart *cell_convert_part_to_spart(struct engine *e, 
-                                         struct cell *c,
-                                         struct part *p, 
-                                         struct xpart *xp) {
+struct spart *cell_convert_part_to_spart(struct engine *e, struct cell *c,
+                                         struct part *p, struct xpart *xp) {
   /* Quick cross-check */
   if (c->nodeID != e->nodeID)
     error("Can't remove a particle in a foreign cell.");
@@ -877,21 +875,10 @@ struct spart *cell_convert_part_to_spart(struct engine *e,
   sp->x_diff[2] = xp->x_diff[2];
 
   /* Destroy the gas particle and get it's gpart friend */
-   struct gpart *gp = cell_convert_part_to_gpart(e, c, p, xp);
-  
-
-
-
-
-
-
-
-
-
+  struct gpart *gp = cell_convert_part_to_gpart(e, c, p, xp);
 
   /* Assign the ID back */
-  sp->id = gp->id_or_neg_offset; // this works, the line below will not
-//  sp->id = space_get_new_unique_id(e->s);//gp->id_or_neg_offset;
+  sp->id = gp->id_or_neg_offset;
   gp->type = swift_type_stars;
 
   /* Re-link things */
@@ -902,7 +889,7 @@ struct spart *cell_convert_part_to_spart(struct engine *e,
   gp->time_bin = sp->time_bin;
 
   /* Synchronize masses, positions and velocities */
-  sp->mass = 0.0;//gp->mass;
+  sp->mass = gp->mass;
   sp->x[0] = gp->x[0];
   sp->x[1] = gp->x[1];
   sp->x[2] = gp->x[2];
@@ -934,10 +921,9 @@ struct spart *cell_convert_part_to_spart(struct engine *e,
  * @return A fresh #spart with a different ID, but same position,
  * velocity and time-bin as the original #part.
  */
-struct spart *cell_spawn_new_spart_from_part(struct engine *e, 
-                                             struct cell *c,
-                                             struct part *p,
-                                             struct xpart *xp) {
+struct spart *cell_spawn_new_spart_from_part(struct engine *e, struct cell *c,
+                                             const struct part *p,
+                                             const struct xpart *xp) {
   /* Quick cross-check */
   if (c->nodeID != e->nodeID)
     error("Can't spawn a particle in a foreign cell.");
@@ -968,7 +954,7 @@ struct spart *cell_spawn_new_spart_from_part(struct engine *e,
 
   /* Copy the gpart */
   *gp = *p->gpart;
-  
+
   /* Assign the ID. */
   sp->id = space_get_new_unique_id(e->s);
   gp->type = swift_type_stars;
@@ -981,14 +967,14 @@ struct spart *cell_spawn_new_spart_from_part(struct engine *e,
   gp->time_bin = sp->time_bin;
 
   /* Synchronize masses, positions and velocities */
-  sp->mass = 0.0;//hydro_get_mass(p);
-  sp->x[0] = gp->x[0];
-  sp->x[1] = gp->x[1];
-  sp->x[2] = gp->x[2];
-  sp->v[0] = gp->v_full[0];
-  sp->v[1] = gp->v_full[1];
-  sp->v[2] = gp->v_full[2];
-  
+  sp->mass = hydro_get_mass(p);
+  sp->x[0] = p->x[0];
+  sp->x[1] = p->x[1];
+  sp->x[2] = p->x[2];
+  sp->v[0] = xp->v_full[0];
+  sp->v[1] = xp->v_full[1];
+  sp->v[2] = xp->v_full[2];
+
 #ifdef SWIFT_DEBUG_CHECKS
   sp->ti_kick = p->ti_kick;
   sp->ti_drift = p->ti_drift;
@@ -1149,93 +1135,3 @@ struct spart *cell_spawn_new_spart_from_sink(struct engine *e, struct cell *c,
   /* Here comes the Sun! */
   return sp;
 }
-
-
-/** SAK
- * @brief Add a new #spart based on a #part and link it to a new #gpart.
- * The part and xpart are not changed.
- *
- * @param e The #engine.
- * @param c The #cell from which to remove the #part.
- * @param p The #part to remove (must be inside c).
- * @param xp The extended data of the #part.
- *
- * @return A fresh #spart with a different ID, but same position,
- * velocity and time-bin as the original #part.
- */
-struct spart *cell_spawn_new_spart_from_spart(struct engine *e, 
-                                              struct cell *c,
-                                              const struct spart *sp) {
-
-  message("We try to copy spart here");
-
-  /* Quick cross-check */
-  if (c->nodeID != e->nodeID)
-    error("Can't spawn a particle in a foreign cell.");
-
-  if (sp->gpart == NULL)
-    error("Trying to create a new spart from a part without gpart friend!");
-
-  /* Create a fresh (empty) spart */
-  struct spart *sp_new = cell_add_spart(e, c);
-
-  /* Did we run out of free spart slots? */
-  if (sp_new == NULL){
-     message("We run out of free spart slots");
-     return NULL;
-  }
-  else
-  message("New spart created");
-
-  /* Copy over the distance since rebuild */
-  sp_new->x_diff[0] = sp->x_diff[0];
-  sp_new->x_diff[1] = sp->x_diff[1];
-  sp_new->x_diff[2] = sp->x_diff[2];
-
-  /* Create a new gpart */
-  struct gpart *gp = cell_add_gpart(e, c);
-
-  message("new gp coordinates %e %e %e", gp->x[0], gp->x[1], gp->x[2]);
-
-  /* Did we run out of free gpart slots? */
-  if (gp == NULL) {
-    message("We run out of free gpart slots!");
-    /* Remove the particle created */
-    cell_remove_spart(e, c, sp_new);
-    return NULL;
-  }
-  else
-  message("New gpart created");
-
-  /* Copy the gpart */
-  // gp = sp->gpart;
-  // *gp = *sp->gpart;
-  message("new gp coordinates %e %e %e", gp->x[0], gp->x[1], gp->x[2]);
-  message("Copy the gpart done");
-
-  /* Assign the ID. */
-  sp_new->id = space_get_new_unique_id(e->s);
-  message("sp id done %d",sp_new->id);
-  gp->type = swift_type_stars;
-  message("IDs done: %d",gp->type);
-
-  /* Re-link things */
-//  sp_new->gpart = gp;
-  //message("sp_new gpart type: %d",sp_new->gpart->type);
-  gp->id_or_neg_offset = -(sp_new - e->s->sparts);
-  message("Re-link done %d",gp->id_or_neg_offset);
-
-  /* Synchronize clocks */
-  gp->time_bin = sp_new->time_bin; // or sp?
-
-  /* Here comes the Sun! */
-  message("Here comes the Sun!");
-
-  /* TODO particles shift */
-  /* TODO copy some sp fields */
-  
-  return sp_new;
-
-  }
-
-

@@ -62,7 +62,6 @@
 #include "timestep_limiter.h"
 #include "tracers.h"
 
-#define n_spart_to_split 1
 /**
  * @brief Calculate gravity acceleration from external potential
  *
@@ -306,7 +305,6 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
   const double time_base = e->time_base;
   const integertime_t ti_current = e->ti_current;
   const int current_stars_count = c->stars.count;
-  int ifstars_formed = 0;
 
   TIMER_TIC;
 
@@ -393,79 +391,86 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
                                                     dt_star)) {
 
             /* Convert the gas particle to a star particle */
-            struct spart *sp;
+            struct spart *sp = NULL;
+            const int spawn_spart =
+                star_formation_should_spawn_spart(p, xp, sf_props);
 
-            /* SAKh */
-            struct spart *spp[n_spart_to_split];
+            /* Are we using a model that actually generates star particles? */
+            if (swift_star_formation_model_creates_stars) {
 
-            // message("---------- Hydro %d part mass %e", k, hydro_get_mass(p));
-
-            for(int ii = 0; ii<n_spart_to_split; ii++)
-            {
-              spp[ii] = NULL;
-
-              if(ii==n_spart_to_split-1)
-                spp[ii] = cell_convert_part_to_spart(e, c, p, xp);     
-              else
-                spp[ii] = cell_spawn_new_spart_from_part(e, c, p, xp);
-  
-              message("a We formed %d star id=%lld, old stars count=%d, current %d, mass %e", 
-              ii,spp[ii]->id, current_stars_count, c->stars.count, spp[ii]->mass);       
-              
-              star_formation_copy_properties(
-                  p, xp, spp[ii], e, sf_props, cosmo, with_cosmology, phys_const,
-                  hydro_props, us, cooling, n_spart_to_split ); 
-
-              c->stars.h_max = max(c->stars.h_max, spp[ii]->h);
-              c->stars.h_max_active = max(c->stars.h_max_active, spp[ii]->h);
-
-  //            message("b coords    %d id=%lld, %e, %e, %e", ii,
-    //          spp[ii]->id, spp[ii]->x[0], spp[ii]->x[1], spp[ii]->x[2]);       
-
-      //        message("c agravs    %d id=%lld, %e, %e, %e", ii,
-        //      spp[ii]->id, spp[ii]->gpart->a_grav[0], spp[ii]->gpart->a_grav[1], spp[ii]->gpart->a_grav[2]);       
-
-          //    message("c velocs    %d id=%lld, %e, %e, %e", ii,
-            //  spp[ii]->id, spp[ii]->gpart->v_full[0], spp[ii]->gpart->v_full[1], spp[ii]->gpart->v_full[2]);       
-            }
-
-            struct spart *const sparts = c->stars.parts;
-
-
-            // for(int ii=0; ii<n_spart_to_split+2; ii++)
-            // {
-            //   struct spart * sps = &sparts[ii];	
-            //   message("------- all stars %d %lld %lld",ii,sps->id,sps->gpart->id_or_neg_offset);
-            //   message("                  %d %e %e %e %e",ii,sps->gpart->x[0],sps->gpart->v_full[0],sps->gpart->a_grav[0],sps->gpart->a_grav_mesh[0]);
-            //   message("                  %d %e %e %e %e",ii, sps->gpart->potential, sps->gpart->potential_mesh, sps->gpart->mass, sps->gpart->old_a_grav_norm);
-            //   message("                  %d %d %d %e %e",ii, sps->gpart->type, sps->gpart->time_bin, sps->gpart->fof_data, sps->gpart->mass);
-              
-            // }
-
-            // hydro_set_mass(p,hydro_get_mass(p)*1/2);
-
-            // message("---------- Hydro %d part mass %e", k, hydro_get_mass(p));
-//            error("JUST STOP HERE");
-
-            /* Did we get a star? (Or did we run out of spare ones?) */
-            if (spp[n_spart_to_split-1] != NULL) {
-
-              for(int ii = 0; ii<n_spart_to_split; ii++)
-              {
-                star_formation_logger_log_new_spart(spp[ii], &c->stars.sfh); // not sure this works as I want
-
-//                message("d We formed %d star id=%lld, old stars count=%d, current %d, mass %e", 
-  //              ii,spp[ii]->id, current_stars_count, c->stars.count, spp[ii]->mass);       
-    //            message("e coords    %d id=%lld, %e, %e, %e", ii,
-      //          spp[ii]->id, spp[ii]->x[0], spp[ii]->x[1], spp[ii]->x[2]);       
+              /* Check if we should create a new particle or transform one */
+              if (spawn_spart) {
+                /* Spawn a new spart (+ gpart) */
+                sp = cell_spawn_new_spart_from_part(e, c, p, xp);
+              } else {
+                /* Convert the gas particle to a star particle */
+                sp = cell_convert_part_to_spart(e, c, p, xp);
+#ifdef WITH_CSDS
+                /* Write the particle */
+                /* Logs all the fields request by the user */
+                // TODO select only the requested fields
+                csds_log_part(e->csds, p, xp, e, /* log_all */ 1,
+                              csds_flag_change_type, swift_type_stars);
+#endif
               }
 
-            } else if (swift_star_formation_model_creates_stars) 
-            {
+            } else {
 
-              /* SAKh TODO: here need to clean new particles bcs not all 
-              of them were really created*/
-              // message("THERE WAS NOT ENOUGH SPACE FOR NEW PARTICLES");
+              /* We are in a model where spart don't exist
+               * --> convert the part to a DM gpart */
+              cell_convert_part_to_gpart(e, c, p, xp);
+            }
+
+            /* Did we get a star? (Or did we run out of spare ones?) */
+            if (sp != NULL) {
+
+              /* message("We formed a star id=%lld cellID=%lld", sp->id,
+               * c->cellID); */
+
+              /* Copy the properties of the gas particle to the star particle */
+              star_formation_copy_properties(
+                  p, xp, sp, e, sf_props, cosmo, with_cosmology, phys_const,
+                  hydro_props, us, cooling, !spawn_spart);
+
+              /* Update the Star formation history */
+              star_formation_logger_log_new_spart(sp, &c->stars.sfh);
+
+              /* Update the h_max */
+              c->stars.h_max = max(c->stars.h_max, sp->h);
+              c->stars.h_max_active = max(c->stars.h_max_active, sp->h);
+
+              /* Update the displacement information */
+              if (star_formation_need_update_dx_max) {
+                const float dx2_part = xp->x_diff[0] * xp->x_diff[0] +
+                                       xp->x_diff[1] * xp->x_diff[1] +
+                                       xp->x_diff[2] * xp->x_diff[2];
+                const float dx2_sort = xp->x_diff_sort[0] * xp->x_diff_sort[0] +
+                                       xp->x_diff_sort[1] * xp->x_diff_sort[1] +
+                                       xp->x_diff_sort[2] * xp->x_diff_sort[2];
+
+                const float dx_part = sqrtf(dx2_part);
+                const float dx_sort = sqrtf(dx2_sort);
+
+                /* Note: no need to update quantities further up the tree as
+                   this task is always called at the top-level */
+                c->hydro.dx_max_part = max(c->hydro.dx_max_part, dx_part);
+                c->hydro.dx_max_sort = max(c->hydro.dx_max_sort, dx_sort);
+              }
+
+#ifdef WITH_CSDS
+              if (spawn_spart) {
+                /* Set to zero the csds data. */
+                csds_part_data_init(&sp->csds_data);
+              } else {
+                /* Copy the properties back to the stellar particle */
+                sp->csds_data = xp->csds_data;
+              }
+
+              /* Write the s-particle */
+              csds_log_spart(e->csds, sp, e, /* log_all */ 1, csds_flag_create,
+                             /* data */ 0);
+#endif
+            } else if (swift_star_formation_model_creates_stars) {
 
               /* Do something about the fact no star could be formed.
                  Note that in such cases a tree rebuild to create more free
@@ -491,20 +496,18 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
         }
       }
     } /* Loop over particles */
-
   }
-  
+
   /* If we formed any stars, the star sorts are now invalid. We need to
    * re-compute them. */
   if (with_feedback && (c == c->top) &&
-  // if ((c == c->top) &&
       (current_stars_count != c->stars.count)) {
     cell_set_star_resort_flag(c);
   }
 
   if (timer) TIMER_TOC(timer_do_star_formation);
 }
-  
+
 /**
  * @brief Creates sink particles.
  *
@@ -690,9 +693,6 @@ void runner_do_end_hydro_force(struct runner *r, struct cell *c, int timer) {
       }
     }
   }
-
-
-
 
   if (timer) TIMER_TOC(timer_end_hydro_force);
 }
@@ -1153,20 +1153,3 @@ void runner_do_rt_tchem(struct runner *r, struct cell *c, int timer) {
 
   if (timer) TIMER_TOC(timer_do_rt_tchem);
 }
-
-
-
-
-/**
- * @brief Convert some hydro particles into stars depending on the star
- * formation model.
- *
- * @param r runner task
- * @param c cell
- * @param timer 1 if the time is to be recorded.
- */
-void runner_do_split_stars(struct runner *r, struct cell *c, int timer){
-  error("we try to split stars function here");
-
-}
-
