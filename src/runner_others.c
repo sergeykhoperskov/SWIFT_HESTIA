@@ -398,7 +398,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
             /* SAKh */
             struct spart *spp[n_spart_to_split];
 
-            message("---------- Hydro %d part mass %e", k, hydro_get_mass(p));
+            // message("---------- Hydro %d part mass %e", k, hydro_get_mass(p));
 
             for(int ii = 0; ii<n_spart_to_split; ii++)
             {
@@ -432,20 +432,19 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
             struct spart *const sparts = c->stars.parts;
 
 
-            // for(int ii=0; ii<c->stars.count; ii++)
-            for(int ii=0; ii<n_spart_to_split+2; ii++)
-            {
-              struct spart * sps = &sparts[ii];	
-              message("------- all stars %d %lld %lld",ii,sps->id,sps->gpart->id_or_neg_offset);
-              message("                  %d %e %e %e %e",ii,sps->gpart->x[0],sps->gpart->v_full[0],sps->gpart->a_grav[0],sps->gpart->a_grav_mesh[0]);
-              message("                  %d %e %e %e %e",ii, sps->gpart->potential, sps->gpart->potential_mesh, sps->gpart->mass, sps->gpart->old_a_grav_norm);
-              message("                  %d %d %d %e %e",ii, sps->gpart->type, sps->gpart->time_bin, sps->gpart->fof_data, sps->gpart->mass);
+            // for(int ii=0; ii<n_spart_to_split+2; ii++)
+            // {
+            //   struct spart * sps = &sparts[ii];	
+            //   message("------- all stars %d %lld %lld",ii,sps->id,sps->gpart->id_or_neg_offset);
+            //   message("                  %d %e %e %e %e",ii,sps->gpart->x[0],sps->gpart->v_full[0],sps->gpart->a_grav[0],sps->gpart->a_grav_mesh[0]);
+            //   message("                  %d %e %e %e %e",ii, sps->gpart->potential, sps->gpart->potential_mesh, sps->gpart->mass, sps->gpart->old_a_grav_norm);
+            //   message("                  %d %d %d %e %e",ii, sps->gpart->type, sps->gpart->time_bin, sps->gpart->fof_data, sps->gpart->mass);
               
-            }
+            // }
 
             // hydro_set_mass(p,hydro_get_mass(p)*1/2);
 
-            message("---------- Hydro %d part mass %e", k, hydro_get_mass(p));
+            // message("---------- Hydro %d part mass %e", k, hydro_get_mass(p));
 //            error("JUST STOP HERE");
 
             /* Did we get a star? (Or did we run out of spare ones?) */
@@ -466,7 +465,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 
               /* SAKh TODO: here need to clean new particles bcs not all 
               of them were really created*/
-              message("THERE WAS NOT ENOUGH SPACE FOR NEW PARTICLES");
+              // message("THERE WAS NOT ENOUGH SPACE FOR NEW PARTICLES");
 
               /* Do something about the fact no star could be formed.
                  Note that in such cases a tree rebuild to create more free
