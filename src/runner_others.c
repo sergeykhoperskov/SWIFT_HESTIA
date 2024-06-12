@@ -392,9 +392,14 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 
             /* Convert the gas particle to a star particle */
             struct spart *sp = NULL;
-            const int spawn_spart =
+            int spawn_spart =
                 star_formation_should_spawn_spart(p, xp, sf_props);
 
+            while(spawn_spart)
+            {
+              spawn_spart--;
+
+            
             /* Are we using a model that actually generates star particles? */
             if (swift_star_formation_model_creates_stars) {
 
@@ -402,9 +407,12 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               if (spawn_spart) {
                 /* Spawn a new spart (+ gpart) */
                 sp = cell_spawn_new_spart_from_part(e, c, p, xp);
-              } else {
+                message("Spawning star %d from %lld", spawn_spart, p->id);
+              } 
+              else {
                 /* Convert the gas particle to a star particle */
                 sp = cell_convert_part_to_spart(e, c, p, xp);
+                message("Converting star %d from %lld", spawn_spart, p->id);
 #ifdef WITH_CSDS
                 /* Write the particle */
                 /* Logs all the fields request by the user */
@@ -478,6 +486,8 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
                  cell_convert_part_to_spart() */
               star_formation_no_spart_available(e, p, xp);
             }
+
+            } /* spawn/copy part */
           }
 
         } else { /* Are we not star-forming? */

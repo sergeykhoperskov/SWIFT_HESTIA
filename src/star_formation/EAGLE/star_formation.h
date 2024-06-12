@@ -524,7 +524,7 @@ INLINE static int star_formation_should_convert_to_star(
  */
 INLINE static int star_formation_should_spawn_spart(
     struct part* p, struct xpart* xp, const struct star_formation* starform) {
-  return 0;
+  return 8;
 }
 
 /**
