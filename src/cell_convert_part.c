@@ -890,7 +890,7 @@ struct spart *cell_convert_part_to_spart(struct engine *e,
 
 
   /* Assign the ID back */
-  sp->id = gp->id_or_neg_offset;
+  sp->id = gp->id_or_neg_offset; // this works, the line below will not
 //  sp->id = space_get_new_unique_id(e->s);//gp->id_or_neg_offset;
   gp->type = swift_type_stars;
 
