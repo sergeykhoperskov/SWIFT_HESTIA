@@ -890,7 +890,7 @@ struct spart *cell_convert_part_to_spart(struct engine *e, struct cell *c,
   gp->time_bin = sp->time_bin;
 
   /* Synchronize masses, positions and velocities */
-  sp->mass = 0.0;//gp->mass; // we will do it in copy_properties()
+  sp->mass = 0.0;//gp->mass; // we will do this in copy_properties()
   sp->x[0] = gp->x[0];
   sp->x[1] = gp->x[1];
   sp->x[2] = gp->x[2];
@@ -968,7 +968,7 @@ struct spart *cell_spawn_new_spart_from_part(struct engine *e, struct cell *c,
   gp->time_bin = sp->time_bin;
 
   /* Synchronize masses, positions and velocities */
-  sp->mass = 0.0;//hydro_get_mass(p); // we will do it in copy_properties()
+  sp->mass = 0.0;//hydro_get_mass(p); // we will do this in copy_properties()
   sp->x[0] = p->x[0];
   sp->x[1] = p->x[1];
   sp->x[2] = p->x[2];

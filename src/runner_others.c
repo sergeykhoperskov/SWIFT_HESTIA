@@ -441,7 +441,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               star_formation_copy_properties(
                   p, xp, sp, e, sf_props, cosmo, with_cosmology, phys_const,
                   hydro_props, us, cooling, !spawn_spart);
-              message("New star params %d from %lld, new id %lld with m=%e and x=%e", spawn_spart, p->id, sp->id, sp->mass, sp->x[0]);
+              message("New star  %d from %lld, new id %lld with m=%e and x=%e", spawn_spart, p->id, sp->id, sp->mass, sp->x[0]);
 
               /* Update the Star formation history */
               star_formation_logger_log_new_spart(sp, &c->stars.sfh);

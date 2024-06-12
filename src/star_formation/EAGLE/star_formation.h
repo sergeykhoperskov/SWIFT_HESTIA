@@ -524,8 +524,7 @@ INLINE static int star_formation_should_convert_to_star(
  */
 INLINE static int star_formation_should_spawn_spart(
     struct part* p, struct xpart* xp, const struct star_formation* starform) {
-  return 1; 
-  //return 8;
+  return 8;
 }
 
 /**
@@ -580,12 +579,12 @@ INLINE static void star_formation_copy_properties(
     const int convert_part) {
 
   /* Store the current mass */
-  sp->mass = hydro_get_mass(p);///8.0;
+  sp->mass = hydro_get_mass(p)/8.0;
 
   /* Store the current mass as the initial mass */
-  sp->mass_init = hydro_get_mass(p);///8.0;
+  sp->mass_init = hydro_get_mass(p)/8.0;
 
-  sp->gpart->mass = hydro_get_mass(p);///8.0;
+  sp->gpart->mass = hydro_get_mass(p)/8.0;
   
   /* Store either the birth_scale_factor or birth_time depending  */
   if (with_cosmology) {
