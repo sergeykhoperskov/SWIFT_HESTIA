@@ -439,7 +439,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               message("------- all stars %d %lld %lld",ii,sps->id,sps->gpart->id_or_neg_offset);
               message("                  %d %e %e %e %e",ii,sps->gpart->x[0],sps->gpart->v_full[0],sps->gpart->a_grav[0],sps->gpart->a_grav_mesh[0]);
               message("                  %d %e %e %e %e",ii, sps->gpart->potential, sps->gpart->potential_mesh, sps->gpart->mass, sps->gpart->old_a_grav_norm);
-              message("                  %d %d %d %e %e",ii, sps->gpart->part_type, sps->gpart->time_bin, sps->gpart->fof_data, sps->gpart->mass);
+              message("                  %d %d %d %e %e",ii, sps->gpart->type, sps->gpart->time_bin, sps->gpart->fof_data, sps->gpart->mass);
               
             }
 
