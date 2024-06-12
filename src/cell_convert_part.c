@@ -854,8 +854,10 @@ struct gpart *cell_convert_spart_to_gpart(const struct engine *e,
  * @return A fresh #spart with the same ID, position, velocity and
  * time-bin as the original #part.
  */
-struct spart *cell_convert_part_to_spart(struct engine *e, struct cell *c,
-                                         struct part *p, struct xpart *xp) {
+struct spart *cell_convert_part_to_spart(struct engine *e, 
+                                         struct cell *c,
+                                         struct part *p, 
+                                         struct xpart *xp) {
   /* Quick cross-check */
   if (c->nodeID != e->nodeID)
     error("Can't remove a particle in a foreign cell.");
@@ -931,9 +933,10 @@ struct spart *cell_convert_part_to_spart(struct engine *e, struct cell *c,
  * @return A fresh #spart with a different ID, but same position,
  * velocity and time-bin as the original #part.
  */
-struct spart *cell_spawn_new_spart_from_part(struct engine *e, struct cell *c,
-                                             const struct part *p,
-                                             const struct xpart *xp) {
+struct spart *cell_spawn_new_spart_from_part(struct engine *e, 
+                                             struct cell *c,
+                                             struct part *p,
+                                             struct xpart *xp) {
   /* Quick cross-check */
   if (c->nodeID != e->nodeID)
     error("Can't spawn a particle in a foreign cell.");

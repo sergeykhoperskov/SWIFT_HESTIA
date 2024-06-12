@@ -451,7 +451,6 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
             /* Did we get a star? (Or did we run out of spare ones?) */
             if (spp[n_spart_to_split-1] != NULL) {
 
-
               for(int ii = 0; ii<n_spart_to_split; ii++)
               {
                 star_formation_logger_log_new_spart(spp[ii], &c->stars.sfh); // not sure this works as I want
@@ -467,7 +466,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 
               /* SAKh TODO: here need to clean new particles bcs not all 
               of them were really created*/
-              message("THERE IS NOT ENOUGH SPACE FOR NEW PARTICLES");
+              message("THERE WAS NOT ENOUGH SPACE FOR NEW PARTICLES");
 
               /* Do something about the fact no star could be formed.
                  Note that in such cases a tree rebuild to create more free
