@@ -62,7 +62,7 @@
 #include "timestep_limiter.h"
 #include "tracers.h"
 
-#define n_spart_to_split 8
+#define n_spart_to_split 1
 /**
  * @brief Calculate gravity acceleration from external potential
  *
