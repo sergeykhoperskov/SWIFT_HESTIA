@@ -878,7 +878,8 @@ struct spart *cell_convert_part_to_spart(struct engine *e, struct cell *c,
   struct gpart *gp = cell_convert_part_to_gpart(e, c, p, xp);
 
   /* Assign the ID back */
-  sp->id = gp->id_or_neg_offset;
+//  sp->id = gp->id_or_neg_offset; // original version
+  sp->id = space_get_new_unique_id(e->s); // test version
   gp->type = swift_type_stars;
 
   /* Re-link things */
