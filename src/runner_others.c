@@ -419,14 +419,14 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               c->stars.h_max = max(c->stars.h_max, spp[ii]->h);
               c->stars.h_max_active = max(c->stars.h_max_active, spp[ii]->h);
 
-              message("b coords    %d id=%lld, %e, %e, %e", ii,
-              spp[ii]->id, spp[ii]->x[0], spp[ii]->x[1], spp[ii]->x[2]);       
+  //            message("b coords    %d id=%lld, %e, %e, %e", ii,
+    //          spp[ii]->id, spp[ii]->x[0], spp[ii]->x[1], spp[ii]->x[2]);       
 
-              message("c agravs    %d id=%lld, %e, %e, %e", ii,
-              spp[ii]->id, spp[ii]->gpart->a_grav[0], spp[ii]->gpart->a_grav[1], spp[ii]->gpart->a_grav[2]);       
+      //        message("c agravs    %d id=%lld, %e, %e, %e", ii,
+        //      spp[ii]->id, spp[ii]->gpart->a_grav[0], spp[ii]->gpart->a_grav[1], spp[ii]->gpart->a_grav[2]);       
 
-              message("c velocs    %d id=%lld, %e, %e, %e", ii,
-              spp[ii]->id, spp[ii]->gpart->v_full[0], spp[ii]->gpart->v_full[1], spp[ii]->gpart->v_full[2]);       
+          //    message("c velocs    %d id=%lld, %e, %e, %e", ii,
+            //  spp[ii]->id, spp[ii]->gpart->v_full[0], spp[ii]->gpart->v_full[1], spp[ii]->gpart->v_full[2]);       
             }
 
             struct spart *const sparts = c->stars.parts;
@@ -452,12 +452,12 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 
               for(int ii = 0; ii<n_spart_to_split; ii++)
               {
-                star_formation_logger_log_new_spart(spp[ii], &c->stars.sfh);
+                star_formation_logger_log_new_spart(spp[ii], &c->stars.sfh); // not sure this works as I want
 
-                message("d We formed %d star id=%lld, old stars count=%d, current %d, mass %e", 
-                ii,spp[ii]->id, current_stars_count, c->stars.count, spp[ii]->mass);       
-                message("e coords    %d id=%lld, %e, %e, %e", ii,
-                spp[ii]->id, spp[ii]->x[0], spp[ii]->x[1], spp[ii]->x[2]);       
+//                message("d We formed %d star id=%lld, old stars count=%d, current %d, mass %e", 
+  //              ii,spp[ii]->id, current_stars_count, c->stars.count, spp[ii]->mass);       
+    //            message("e coords    %d id=%lld, %e, %e, %e", ii,
+      //          spp[ii]->id, spp[ii]->x[0], spp[ii]->x[1], spp[ii]->x[2]);       
               }
 
             } else if (swift_star_formation_model_creates_stars) 
