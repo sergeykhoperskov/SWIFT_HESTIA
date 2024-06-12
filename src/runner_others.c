@@ -504,14 +504,6 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 
   if (timer) TIMER_TOC(timer_do_star_formation);
 }
-
-// s->size_parts;
-//   s->nr_parts = k_parts;
-//   s->nr_gparts = k_gparts;
-  
-//   s->size_parts;
-//   s->size_gparts;
-//   s->size_sparts;
   
 /**
  * @brief Creates sink particles.
