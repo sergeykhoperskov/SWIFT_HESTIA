@@ -431,10 +431,14 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
 
             struct spart *const sparts = c->stars.parts;
 
-            for(int ii=0; ii<c->stars.count; ii++)
+
+            // for(int ii=0; ii<c->stars.count; ii++)
+            for(int ii=0; ii<n_spart_to_split+1; ii++)
             {
               struct spart * sps = &sparts[ii];	
               message("------- all stars %d %lld %lld",ii,sps->id,sps->gpart->id_or_neg_offset);
+              message("                  %d %e %e %e %e",ii,sps->gpart->x[0],sps->gpart->v_full[0],sps->gpart->a_grav[0],sps->gpart->a_grav_mesh[0]);
+              message("                  %d %e %e %e %e",ii, sps->gpart->potential, sps->gpart->potential_mesh, sps->gpart->mass, sps->gpart->old_a_grav_norm);
             }
 
             // hydro_set_mass(p,hydro_get_mass(p)*1/2);
