@@ -906,8 +906,6 @@ struct spart *cell_convert_part_to_spart(struct engine *e, struct cell *c,
   /* Set a smoothing length */
   sp->h = p->h;
 
-  struct gpart *gp1 = cell_convert_part_to_gpart(e, c, p, xp);
-
   /* Here comes the Sun! */
   return sp;
 }
@@ -985,6 +983,8 @@ struct spart *cell_spawn_new_spart_from_part(struct engine *e, struct cell *c,
 
   /* Set a smoothing length */
   sp->h = p->h;
+
+  struct gpart *gp1 = cell_convert_part_to_gpart(e, c, p, xp);
 
   /* Here comes the Sun! */
   return sp;
