@@ -407,13 +407,13 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               if (spawn_spart) {
                 /* Spawn a new spart (+ gpart) */
                 sp = cell_spawn_new_spart_from_part(e, c, p, xp);
-                message("Spawning star %d from %lld", spawn_spart, p->id);
+//                message("Spawning star %d from %lld", spawn_spart, p->id);
 //                spawn_spart = 0;
               } 
               else {
                 /* Convert the gas particle to a star particle */
                 sp = cell_convert_part_to_spart(e, c, p, xp);
-                message("Converting star %d from %lld, new id %lld", spawn_spart, p->id, sp->id);
+ //               message("Converting star %d from %lld, new id %lld", spawn_spart, p->id, sp->id);
                 
                 
 #ifdef WITH_CSDS
@@ -442,7 +442,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               star_formation_copy_properties(
                   p, xp, sp, e, sf_props, cosmo, with_cosmology, phys_const,
                   hydro_props, us, cooling, !spawn_spart);
-              message("New star  %d from %lld, new id %lld with m=%e and x=%e", spawn_spart, p->id, sp->id, sp->mass, sp->x[0]);
+   //           message("New star  %d from %lld, new id %lld with m=%e and x=%e", spawn_spart, p->id, sp->id, sp->mass, sp->x[0]);
 
               /* Update the Star formation history */
               star_formation_logger_log_new_spart(sp, &c->stars.sfh);
