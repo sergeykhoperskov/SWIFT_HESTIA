@@ -408,6 +408,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
                 /* Spawn a new spart (+ gpart) */
                 sp = cell_spawn_new_spart_from_part(e, c, p, xp);
                 message("Spawning star %d from %lld", spawn_spart, p->id);
+                spawn_spart = 0;
               } 
               else {
                 /* Convert the gas particle to a star particle */
