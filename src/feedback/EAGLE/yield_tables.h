@@ -32,25 +32,32 @@ static const float log10_min_metallicity = -20;
 #define eagle_feedback_N_imf_bins 200
 
 /*! Number of elements considered for the SNIa yields */
-#define eagle_feedback_SNIa_N_elements 42
+//#define eagle_feedback_SNIa_N_elements 42
+int eagle_feedback_SNIa_N_elements = 42;
 
 /*! Number of elements considered for the SNII yields */
-#define eagle_feedback_SNII_N_elements 11
+//#define eagle_feedback_SNII_N_elements 11
+eagle_feedback_SNII_N_elements = 11
 
 /*! Number of mass bins considered for the SNII yields */
-#define eagle_feedback_SNII_N_masses 11
+//#define eagle_feedback_SNII_N_masses 11
+int eagle_feedback_SNII_N_masses = 11;
 
 /*! Number of metallicity bins considered for the SNII yields */
-#define eagle_feedback_SNII_N_metals 5
+//#define eagle_feedback_SNII_N_metals 5
+int eagle_feedback_SNII_N_metals = 5;
 
 /*! Number of elements considered for the AGB yields */
-#define eagle_feedback_AGB_N_elements 11
+//#define eagle_feedback_AGB_N_elements 11
+int eagle_feedback_AGB_N_elements = 11;
 
 /*! Number of mass bins considered for the AGB yields */
-#define eagle_feedback_AGB_N_masses 23
+//#define eagle_feedback_AGB_N_masses 23
+int eagle_feedback_AGB_N_masses = 23;
 
 /*! Number of metallicity bins considered for the AGB yields */
-#define eagle_feedback_AGB_N_metals 3
+//#define eagle_feedback_AGB_N_metals 3
+int eagle_feedback_AGB_N_metals = 3;
 
 /*! Number od mass bins along the mass axis of the lifetime table */
 #define eagle_feedback_lifetime_N_masses 30
