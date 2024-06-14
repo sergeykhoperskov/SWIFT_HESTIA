@@ -701,7 +701,7 @@ void feedback_restore_tables(struct feedback_props* fp) {
 
   /*  read size of the yield tables for AGB ------------------------------------------------------------------------ */
     
-    sprintf(fname, "%s/%s", fp->yield_table_path, fp->_agb_yields_file_name);
+    sprintf(fname, "%s/%s", fp->yield_table_path, fp->sak_agb_yields_file_name);
     file_id = H5Fopen(fname, H5F_ACC_RDONLY, H5P_DEFAULT);
     if (file_id < 0) 
       error("unable to open file %s\n", fname);
