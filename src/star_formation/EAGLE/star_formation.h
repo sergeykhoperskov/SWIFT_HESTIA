@@ -61,6 +61,7 @@ enum star_formation_threshold {
                                             properties */
 };
 
+
 /**
  * @brief Properties of the EAGLE star formation model.
  */
