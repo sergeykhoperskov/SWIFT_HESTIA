@@ -24,6 +24,7 @@
 /**
  * @brief The individual elements traced in the EAGLE model.
  */
+/* SAK added chemistry elements */
 enum chemistry_element {
 chemistry_element_Hydrogen = 0,
 chemistry_element_Helium,
