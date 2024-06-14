@@ -37,7 +37,7 @@ int eagle_feedback_SNIa_N_elements = 42;
 
 /*! Number of elements considered for the SNII yields */
 //#define eagle_feedback_SNII_N_elements 11
-eagle_feedback_SNII_N_elements = 11
+int eagle_feedback_SNII_N_elements = 11
 
 /*! Number of mass bins considered for the SNII yields */
 //#define eagle_feedback_SNII_N_masses 11
