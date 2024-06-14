@@ -33,9 +33,6 @@ struct star_formation_xpart_data {
    * last SF episode */
   float SFR;
 
-  /*! Number of possible stars per particle. */
-  // int n_stars_per_part;
-
 };
 
 /**
