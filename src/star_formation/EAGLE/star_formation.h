@@ -527,7 +527,7 @@ INLINE static int star_formation_should_convert_to_star(
  */
 INLINE static int star_formation_should_spawn_spart(
     struct part* p, struct xpart* xp, const struct star_formation* starform) {
-  return n_stars_per_sf;
+  return starform->n_stars_per_sf;
 }
 
 /**
@@ -582,12 +582,12 @@ INLINE static void star_formation_copy_properties(
     const int convert_part) {
 
   /* Store the current mass */
-  sp->mass = hydro_get_mass(p)/double(n_stars_per_sf);
+  sp->mass = hydro_get_mass(p)/double(starform->n_stars_per_sf);
 
   /* Store the current mass as the initial mass */
-  sp->mass_init = hydro_get_mass(p)/double(n_stars_per_sf);
+  sp->mass_init = hydro_get_mass(p)/double(starform->n_stars_per_sf);
 
-  sp->gpart->mass = hydro_get_mass(p)/double(n_stars_per_sf);
+  sp->gpart->mass = hydro_get_mass(p)/double(starform->n_stars_per_sf);
   
   /* Store either the birth_scale_factor or birth_time depending  */
   if (with_cosmology) {
@@ -709,7 +709,7 @@ INLINE static void starformation_init_backend(
   char temp[32];
   parser_get_param_string(parameter_file, "EAGLEStarFormation:SF_model", temp);
 
-  n_stars_per_sf = = parser_get_param_int(
+  starform->n_stars_per_sf = parser_get_param_int(
         parameter_file, "EAGLEStarFormation:n_stars_per_part");
 
   if (strcmp(temp, "SchmidtLaw") == 0) {
@@ -916,7 +916,7 @@ INLINE static void starformation_print_backend(
     const struct star_formation* starform) {
 
   message("Star formation model is EAGLE");
-  message("Star formation will create %d star particles per SF event",n_stars_per_sf);
+  message("Star formation will create %d star particles per SF event",starform->n_stars_per_sf);
   switch (starform->SF_threshold) {
     case eagle_star_formation_threshold_Z_dep:
 
