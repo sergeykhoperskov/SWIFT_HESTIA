@@ -131,6 +131,13 @@ struct feedback_props {
   /* Location of yield tables */
   char yield_table_path[200];
 
+  // SAK
+  char sak_agb_yields_file_name[200];
+  char sak_sni_yields_file_name[200];
+  char sak_snii_yields_file_name[200];
+
+
+
   /* ------------- Lifetime tracks   --------------- */
 
   /* Table of lifetime values */

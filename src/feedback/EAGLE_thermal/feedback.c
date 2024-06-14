@@ -728,6 +728,80 @@ void feedback_props_init(struct feedback_props* fp,
   parser_get_param_string(params, "EAGLEFeedback:filename",
                           fp->yield_table_path);
 
+ parser_get_param_string(params, "EAGLEFeedback:sak_agb_yields_file_name",
+                          fp->sak_agb_yields_file_name);
+  parser_get_param_string(params, "EAGLEFeedback:sak_sni_yields_file_name",
+                          fp->sak_sni_yields_file_name);
+  parser_get_param_string(params, "EAGLEFeedback:sak_snii_yields_file_name",
+                          fp->sak_snii_yields_file_name);
+
+  /* SAK: before allocating yield tables, we need to read the size of these tables */
+  char fname[256];
+  hid_t file_id, dataset;
+  herr_t status;
+  int Number_of_species[1];
+  int Number_of_metallicities[1];
+  int Number_of_masses[1];
+
+  /* SAK read size of the yield tables for AGB ------------------------------------------------------------------------ */
+  
+  sprintf(fname, "%s/%s", fp->yield_table_path, fp->sak_agb_yields_file_name);
+  file_id = H5Fopen(fname, H5F_ACC_RDONLY, H5P_DEFAULT);
+  if (file_id < 0) 
+    error("unable to open file %s\n", fname);
+  else
+    message("file read %s", fname);  
+  dataset = H5Dopen(file_id, "Number_of_species", H5P_DEFAULT);
+  status = H5Dread(dataset, H5T_NATIVE_INT, H5S_ALL, H5S_ALL, H5P_DEFAULT, Number_of_species);
+  dataset = H5Dopen(file_id, "Number_of_metallicities", H5P_DEFAULT);
+  status = H5Dread(dataset, H5T_NATIVE_INT, H5S_ALL, H5S_ALL, H5P_DEFAULT, Number_of_metallicities);
+  dataset = H5Dopen(file_id, "Number_of_masses", H5P_DEFAULT);
+  status = H5Dread(dataset, H5T_NATIVE_INT, H5S_ALL, H5S_ALL, H5P_DEFAULT, Number_of_masses);
+  status = H5Fclose(file_id);
+  if (status < 0) error("error closing file");
+  
+  eagle_feedback_AGB_N_elements = Number_of_species[0];
+  eagle_feedback_AGB_N_masses = Number_of_masses[0];
+  eagle_feedback_AGB_N_metals = Number_of_metallicities[0];
+  message("SAK: AGB: Number of species=%d, metallcities=%d, masses=%d ",eagle_feedback_AGB_N_elements,eagle_feedback_AGB_N_metals,eagle_feedback_AGB_N_masses);
+
+  /* SAK read size of the yield tables for SNI ------------------------------------------------------------------------ */
+
+  sprintf(fname, "%s/%s", fp->yield_table_path, fp->sak_sni_yields_file_name);
+  file_id = H5Fopen(fname, H5F_ACC_RDONLY, H5P_DEFAULT);
+  if (file_id < 0) 
+    error("unable to open file %s\n", fname);
+  else
+    message("file read %s", fname);  
+  dataset = H5Dopen(file_id, "Number_of_species", H5P_DEFAULT);
+  status = H5Dread(dataset, H5T_NATIVE_INT, H5S_ALL, H5S_ALL, H5P_DEFAULT, Number_of_species);
+  if (status < 0) error("error closing file");
+  
+  eagle_feedback_SNIa_N_elements = Number_of_species[0];
+  message("SAK: SNIa: Number of species=%d",eagle_feedback_SNIa_N_elements);
+
+  /* SAK read size of the yield tables for SNII ------------------------------------------------------------------------ */
+
+  sprintf(fname, "%s/%s", fp->yield_table_path, fp->sak_snii_yields_file_name);
+  file_id = H5Fopen(fname, H5F_ACC_RDONLY, H5P_DEFAULT);
+  if (file_id < 0) 
+    error("unable to open file %s\n", fname);
+  else
+    message("file read %s", fname);  
+  dataset = H5Dopen(file_id, "Number_of_species", H5P_DEFAULT);
+  status = H5Dread(dataset, H5T_NATIVE_INT, H5S_ALL, H5S_ALL, H5P_DEFAULT, Number_of_species);
+  dataset = H5Dopen(file_id, "Number_of_metallicities", H5P_DEFAULT);
+  status = H5Dread(dataset, H5T_NATIVE_INT, H5S_ALL, H5S_ALL, H5P_DEFAULT, Number_of_metallicities);
+  dataset = H5Dopen(file_id, "Number_of_masses", H5P_DEFAULT);
+  status = H5Dread(dataset, H5T_NATIVE_INT, H5S_ALL, H5S_ALL, H5P_DEFAULT, Number_of_masses);
+  status = H5Fclose(file_id);
+  if (status < 0) error("error closing file");
+  
+  eagle_feedback_SNII_N_elements = Number_of_species[0];
+  eagle_feedback_SNII_N_masses = Number_of_masses[0];
+  eagle_feedback_SNII_N_metals = Number_of_metallicities[0];
+  message("SAK: SNII: Number of species=%d, metallcities=%d, masses=%d \n",eagle_feedback_SNII_N_elements,eagle_feedback_SNII_N_metals,eagle_feedback_SNII_N_masses);
+
   /* Allocate yield tables  */
   allocate_yield_tables(fp);
 

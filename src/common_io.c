@@ -594,6 +594,23 @@ void io_write_meta_data(hid_t h_file, const struct engine* e,
   parser_write_params_to_hdf5(e->parameter_file, h_grp, /*write_used=*/1);
   H5Gclose(h_grp);
 
+
+/* SAK write elements to trace */
+  char tmp_line[100];
+  char tmp_line2[100];
+  h_grp =
+      H5Gcreate(h_file, "/Elements", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+  if (h_grp < 0) error("Error while creating parameters group");
+  io_write_attribute_i(h_grp, "chemistry_element_count", chemistry_element_count);
+  for(int i=0; i<chemistry_element_count;i++)
+  { 
+    sprintf(tmp_line,"Element%d",i);
+    sprintf(tmp_line2,"%s",chemistry_get_element_name(i));
+    io_write_attribute_s(h_grp, tmp_line, tmp_line2);
+  }
+  H5Gclose(h_grp);
+  /* SAK write elements to trace */
+
   /* Print the runtime unused parameters */
   h_grp = H5Gcreate(h_file, "/UnusedParameters", H5P_DEFAULT, H5P_DEFAULT,
                     H5P_DEFAULT);

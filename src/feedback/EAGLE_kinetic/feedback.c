@@ -645,6 +645,17 @@ void feedback_props_init(struct feedback_props* fp,
   parser_get_param_string(params, "EAGLEFeedback:filename",
                           fp->yield_table_path);
 
+  parser_get_param_string(params, "EAGLEFeedback:sak_agb_yields_file_name",
+                          fp->sak_agb_yields_file_name);
+  parser_get_param_string(params, "EAGLEFeedback:sak_sni_yields_file_name",
+                          fp->sak_sni_yields_file_name);
+  parser_get_param_string(params, "EAGLEFeedback:sak_snii_yields_file_name",
+                          fp->sak_snii_yields_file_name);
+
+  error("SAK stop EAGLE_kientic");
+
+
+
   /* Allocate yield tables  */
   allocate_yield_tables(fp);
 

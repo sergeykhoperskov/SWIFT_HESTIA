@@ -285,6 +285,9 @@ static INLINE void chemistry_print_backend(
 
   message("Chemistry model is 'EAGLE' tracking %d elements.",
           chemistry_element_count);
+
+   for(int i=0; i<chemistry_element_count; i++)
+        message("SAK Chemistry model, tracing %s",chemistry_get_element_name(i));          
 }
 
 /**
