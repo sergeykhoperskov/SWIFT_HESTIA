@@ -43,9 +43,46 @@
 __attribute__((always_inline)) INLINE static const char*
 chemistry_get_element_name(enum chemistry_element elem) {
 
-  static const char* chemistry_element_names[chemistry_element_count] = {
-      "Hydrogen", "Helium",    "Carbon",  "Nitrogen", "Oxygen",
-      "Neon",     "Magnesium", "Silicon", "Iron"};
+//  static const char* chemistry_element_names[chemistry_element_count] = {
+//      "Hydrogen", "Helium",    "Carbon",  "Nitrogen", "Oxygen",
+//      "Neon",     "Magnesium", "Silicon", "Iron"};
+
+static const char* chemistry_element_names[chemistry_element_count] = {
+"Hydrogen",
+"Helium",
+"Lithium",
+"Carbon",
+"Nitrogen",
+"Oxygen",
+"Neon",
+"Sodium",
+"Magnesium",
+"Aluminum",
+"Silicon",
+"Potassium",
+"Calcium",
+"Scandium",
+"Titanium",
+"Vanadium",
+"Chromium",
+"Manganese",
+"Iron",
+"Cobalt",
+"Nickel",
+"Copper",
+"Zinc",
+"Rubidium",
+"Strontium",
+"Yttrium",
+"Zirconium",
+"Molybdenum",
+"Ruthenium",
+"Barium",
+"Lanthanum",
+"Cerium",
+"Neodymium",
+"Samarium",
+"Europium"};
 
   return chemistry_element_names[elem];
 }
