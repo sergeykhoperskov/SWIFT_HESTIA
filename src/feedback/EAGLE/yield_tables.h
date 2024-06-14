@@ -92,6 +92,7 @@ INLINE static int get_element_index(const char *element_name,
  * @param feedback_props the #feedback_props data struct to read the table into.
  */
 INLINE static void read_yield_tables(struct feedback_props *feedback_props) {
+message("SAK: reading yield_tables");
 
 #ifdef HAVE_HDF5
 
@@ -103,7 +104,8 @@ INLINE static void read_yield_tables(struct feedback_props *feedback_props) {
   herr_t status;
 
   /* Open SNIa tables for reading */
-  sprintf(fname, "%s/SNIa.hdf5", feedback_props->yield_table_path);
+  // sprintf(fname, "%s/SNIa.hdf5", feedback_props->yield_table_path);
+  sprintf(fname, "%s/%s", feedback_props->yield_table_path,feedback_props->sak_sni_yields_file_name);
   file_id = H5Fopen(fname, H5F_ACC_RDONLY, H5P_DEFAULT);
   if (file_id < 0) error("unable to open file %s\n", fname);
 
@@ -157,7 +159,8 @@ INLINE static void read_yield_tables(struct feedback_props *feedback_props) {
   /**************************************************************************/
 
   /* Open SNII tables for reading */
-  sprintf(fname, "%s/SNII.hdf5", feedback_props->yield_table_path);
+//  sprintf(fname, "%s/SNII.hdf5", feedback_props->yield_table_path);
+  sprintf(fname, "%s/%s", feedback_props->yield_table_path,feedback_props->sak_snii_yields_file_name);
   file_id = H5Fopen(fname, H5F_ACC_RDONLY, H5P_DEFAULT);
   if (file_id < 0) error("unable to open file %s\n", fname);
 
@@ -290,7 +293,8 @@ INLINE static void read_yield_tables(struct feedback_props *feedback_props) {
   /**************************************************************************/
 
   /* Read AGB tables */
-  sprintf(fname, "%s/AGB.hdf5", feedback_props->yield_table_path);
+//  sprintf(fname, "%s/AGB.hdf5", feedback_props->yield_table_path);
+  sprintf(fname, "%s/%s", feedback_props->yield_table_path, feedback_props->sak_agb_yields_file_name);
   file_id = H5Fopen(fname, H5F_ACC_RDONLY, H5P_DEFAULT);
   if (file_id < 0) error("unable to open file %s\n", fname);
 
