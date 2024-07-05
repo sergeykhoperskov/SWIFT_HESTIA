@@ -413,7 +413,7 @@ void runner_do_star_formation(struct runner *r, struct cell *c, int timer) {
               else {
                 /* Convert the gas particle to a star particle */
                 sp = cell_convert_part_to_spart(e, c, p, xp);
-                message("Converting star %d from %lld, new id %lld", spawn_spart, p->id, sp->id);
+ //               message("Converting star %d from %lld, new id %lld", spawn_spart, p->id, sp->id);
                 
                 
 #ifdef WITH_CSDS
